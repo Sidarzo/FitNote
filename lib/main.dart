@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../model/program.dart';
+import 'dart:developer';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +32,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<List<Program>> program = Program.getPrograms() ;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +44,19 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
           
         ),
-        body: Container(),
+        body: Container(
+          child: buildListFiles(program),
+        ),
         floatingActionButton: 
              FloatingActionButton(
-                onPressed: () {},
+                onPressed: () async {
+                  var fido = Program(
+                    id: null,
+                    name: 'Fido',
+                  );
+
+                  await Program.insertProgram(fido);
+                },
                 tooltip: 'Create',
                 child: const Icon(Icons.add),
               ),
@@ -56,7 +70,10 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             IconButton(     
               icon: const Icon(Icons.crop),
-              onPressed: () {},
+              onPressed: () {
+                var programsAll = Program.getPrograms();
+                print(programsAll);
+              },
                 ),
               ],
             ),
@@ -65,5 +82,52 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  buildListFiles(programs) {
+
+    Future<List<Program>> callAsyncFetch() => Future.delayed(Duration(seconds: 2), () => Program.getPrograms());
+
+    return FutureBuilder<List<Program>>(
+      future: callAsyncFetch(),
+      builder: (context, AsyncSnapshot<List<Program>> snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder( 
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, i) {
+                
+                return buildRow(snapshot.data![i]);
+              });
+        } else {
+          return CircularProgressIndicator();
+        }
+      }
+    );
+
+  }
+
+
+
+  buildRow(Program program) {
+    program.name;
+    return
+    ListTile(
+       title: 
+        Text(program.name, style: TextStyle(
+          color:  Color(0xFF043b90),
+          fontWeight: FontWeight.bold,
+            ),
+          ),
+    );
+  }
 }
+
+
+
+
+
+
+
 
