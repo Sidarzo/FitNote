@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../model/program.dart';
 
 class programform extends StatelessWidget {
- programform({ Key? key, this.email }) : super(key: key);
+ programform({ Key? key, this.name }) : super(key: key);
 
   @override
   
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameEditingController = TextEditingController();
-  final email;
+  final name;
 
 
   Widget build(BuildContext context) {

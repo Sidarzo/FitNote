@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../model/program.dart';
 import '/view/program_form.dart' as formProgramView;
 import 'dart:developer';
+import '/view/programfocus_view.dart' as Programfocus;
 
 
 
@@ -16,6 +17,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        routes: {
+        Programfocus.ProgramFocusScreen.routeName: (context) =>
+            const Programfocus.ProgramFocusScreen(),
+      },
       title: 'Fitnote',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -98,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                 return buildRow(snapshot.data![i]);
               });
         } else {
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       }
     );
@@ -118,6 +123,14 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           leading: Text('Programme n°' + (index).toString()),
+          onTap: (){
+             Navigator.pushNamed(
+                context,
+                Programfocus.ProgramFocusScreen.routeName,
+                arguments: Programfocus.ScreenArguments(program,
+                ),
+              );
+          },
     );
   }
 }
