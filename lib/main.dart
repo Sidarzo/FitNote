@@ -73,8 +73,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(     
               icon: const Icon(Icons.crop),
               onPressed: () {
-                var programsAll = Program.deleteProgram(0);
-                print(programsAll);
+
               },
                 ),
               ],
@@ -85,14 +84,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  var delayInitial = 4;
   buildListPrograms() {
 
-    Future<List<Program>> callAsyncFetch() => Future.delayed(Duration(seconds: 2), () => Program.getPrograms());
-
+    Future<List<Program>> callAsyncFetch() => Future.delayed(Duration(seconds: delayInitial), () => Program.getPrograms());
     return FutureBuilder<List<Program>>(
       future: callAsyncFetch(),
       builder: (context, AsyncSnapshot<List<Program>> snapshot) {
         if (snapshot.hasData) {
+          delayInitial =- 3;
           return ListView.builder( 
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -133,6 +133,7 @@ class _HomePageState extends State<HomePage> {
           },
           trailing: IconButton(onPressed: (){
             Program.deleteProgram(program.id ?? 0);
+            setState(() {});
           }, icon: const Icon(Icons.delete)),
     );
   }

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import '../model/program.dart';
+import '../main.dart';
 
-class programform extends StatelessWidget {
- programform({ Key? key, this.name }) : super(key: key);
 
+class programform extends StatefulWidget {
+  const programform({ Key? key }) : super(key: key);
+
+  @override
+  _programformState createState() => _programformState();
+}
+
+class _programformState extends State<programform> {
   @override
   
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameEditingController = TextEditingController();
-  final name;
+  final name ='Error';
 
 
   Widget build(BuildContext context) {
@@ -45,8 +52,14 @@ class programform extends StatelessWidget {
                      name: name,
                    );  
                    await Program.insertProgram(newProgram);
+                   
                 }
+                setState(() {
+    
+                });
                 Navigator.pop(context);
+
+               
               },
               child: const Text('Créer le programme'),
             ),
@@ -57,5 +70,3 @@ class programform extends StatelessWidget {
     );
   }
 }
-
-
