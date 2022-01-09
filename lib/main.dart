@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
           // fontWeight: FontWeight.bold,
             ),
           ),
-          leading: Text('Programme n°' + (index).toString()),
+         // leading: Text('Programme n°' + (index).toString()),
           onTap: (){
              Navigator.pushNamed(
                 context,
@@ -131,6 +131,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
           },
+          trailing: IconButton(onPressed: (){
+            Program.deleteProgram(program.id ?? 0);
+          }, icon: const Icon(Icons.delete)),
     );
   }
 }
