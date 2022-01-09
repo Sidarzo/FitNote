@@ -33,7 +33,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<Program>> program = Program.getPrograms() ;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           
         ),
         body: Container(
-          child: buildListFiles(program),
+          child: buildListPrograms(),
         ),
         floatingActionButton: 
              FloatingActionButton(
@@ -81,7 +80,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  buildListFiles(programs) {
+  buildListPrograms() {
 
     Future<List<Program>> callAsyncFetch() => Future.delayed(Duration(seconds: 2), () => Program.getPrograms());
 
@@ -103,7 +102,6 @@ class _HomePageState extends State<HomePage> {
         }
       }
     );
-
   }
 
 
