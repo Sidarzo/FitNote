@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/program.dart';
+import '/view/program_form.dart' as formProgramView;
 import 'dart:developer';
 
 
@@ -33,7 +34,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<List<Program>> program = Program.getPrograms() ;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,12 +50,10 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: 
              FloatingActionButton(
                 onPressed: () async {
-                  var fido = Program(
-                    id: null,
-                    name: 'Fido',
-                  );
-
-                  await Program.insertProgram(fido);
+                   Navigator.push(
+                   context,
+                  MaterialPageRoute(builder: (context) => formProgramView.programform()),
+                );
                 },
                 tooltip: 'Create',
                 child: const Icon(Icons.add),
@@ -71,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(     
               icon: const Icon(Icons.crop),
               onPressed: () {
-                var programsAll = Program.getPrograms();
+                var programsAll = Program.deleteProgram(0);
                 print(programsAll);
               },
                 ),
@@ -109,17 +107,19 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-
+   var index = 0;
   buildRow(Program program) {
+    index++;
     program.name;
     return
     ListTile(
        title: 
-        Text(program.name, style: TextStyle(
-          color:  Color(0xFF043b90),
-          fontWeight: FontWeight.bold,
+        Text(program.name, style: const TextStyle(
+          // color:  Color(0xFF043b90),
+          // fontWeight: FontWeight.bold,
             ),
           ),
+          leading: Text('Programme n°' + (index).toString()),
     );
   }
 }

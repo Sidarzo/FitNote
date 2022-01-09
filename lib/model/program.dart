@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dbtest.dart';
 
 class Program {
-   final int? id;
+   late final int? id;
    final String name;
 
 
@@ -53,6 +53,20 @@ static Future<List<Program>> getPrograms() async {
       name: maps[i]['name'],
     );
   });
+}
+
+static Future<void> deleteProgram(int id) async {
+  // Get a reference to the database.
+    final Database db = await dbtest.initializeDB();
+
+  // Remove the Dog from the database.
+  await db.delete(
+    'program',
+    // Use a `where` clause to delete a specific dog.
+    where: 'id = ?',
+    // Pass the Dog's id as a whereArg to prevent SQL injection.
+    whereArgs: [id],
+  );
 }
 
 }
