@@ -124,7 +124,7 @@ class _ExerciseListState extends State<ExerciseList> {
               
             setState(() {
               print(exercise.id);
-              Program.deleteProgram(exercise.id ?? 0);
+              Exercise.deleteExercise(exercise.id ?? 0);
             });
           }, icon: const Icon(Icons.delete)),
     );
