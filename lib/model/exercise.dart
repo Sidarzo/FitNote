@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 import 'db_test.dart';
+import 'machine.dart';
 
 class Exercise {
    late final int? id;
@@ -8,6 +9,7 @@ class Exercise {
    final String name;
    final int repeat;
    final int weight;
+   final int machine_id;
 
 
 
@@ -17,6 +19,7 @@ class Exercise {
       required this.name,
       required this.repeat,
       required this.weight,
+      required this.machine_id,
       });
 
 
@@ -25,10 +28,11 @@ class Exercise {
         program_id = res["program_id"],
         name = res["name"],
         repeat = res["repeat"],
-        weight = res["weight"];
+        weight = res["weight"],
+        machine_id = res['machine_id'];
 
   Map<String, Object?> toMap() {
-    return {'id':id,'program_id': program_id,'name': name,'repeat': repeat,'weight': weight};
+    return {'id':id,'program_id': program_id,'name': name,'repeat': repeat,'weight': weight,'machine_id':machine_id};
   }
 
 
@@ -67,6 +71,7 @@ static Future<List<Exercise>> getExercisesWithProgramId(id) async {
       name: maps[i]['name'],
       repeat: maps[i]['repeat'],
       weight: maps[i]['weight'],
+      machine_id: maps[i]['machine_id']
     );
   });
 }

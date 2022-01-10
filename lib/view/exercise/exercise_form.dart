@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/exercise.dart';
 import '../../model/program.dart';
+import '../../model/machine.dart';
 import '/view/program/programfocus_view.dart' as Programfocus;
 import '../../main.dart' as MainView;
 
@@ -52,12 +53,14 @@ class _exerciseState extends State<Exerciseform> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   String name = nameEditingController.text;
+                var newMachine = Machine(id:1,name: 'ButterFly',type: 'Musculation');
                  var newExo = Exercise(
                      id: null,
                      program_id: args.program.id ?? 0,
                      name: name,
                      repeat:1,
                      weight: 1, 
+                     machine_id: newMachine.id ?? 0,
                    );  
                    await Exercise.insertExercise(newExo);
                 Navigator.pushNamed(

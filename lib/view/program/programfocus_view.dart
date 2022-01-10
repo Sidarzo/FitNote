@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../component/custom_app_bar.dart';
 import '/view/exercise/exercise_form.dart' as ExerciseForm;
 import '../../main.dart' as MainView;
-
+import '../../model/machine.dart';
 
 
 
@@ -102,6 +102,7 @@ class _ExerciseListState extends State<ExerciseList> {
   buildRow(Exercise exercise) {
     index++;
     exercise.name;
+
     return
     ListTile(
        title: 
@@ -119,7 +120,7 @@ class _ExerciseListState extends State<ExerciseList> {
             //     ),
             //   );
           },
-          leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString()),
+          leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString() + 'ID MACHINE :' + exercise.machine_id.toString()),
           trailing: IconButton(onPressed: (){
               
             setState(() {
