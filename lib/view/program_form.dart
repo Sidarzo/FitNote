@@ -54,13 +54,12 @@ class _programformState extends State<Programform> {
                      name: name,
                    );  
                    await Program.insertProgram(newProgram);
-                   
+                   Navigator.pushNamed(
+                    context,
+                    MainView.MyApp.routeName,
+                    arguments: null,
+                );    
                 }
-                  Navigator.pushNamed(
-                  context,
-                  MainView.MyApp.routeName,
-                  arguments: null,
-              );
               },
               child: const Text('Créer le programme'),
             ),
