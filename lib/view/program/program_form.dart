@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../model/program.dart';
-import '../main.dart' as MainView;
+import '../../model/program.dart';
+import '../../main.dart' as MainView;
 
 
 class Programform extends StatefulWidget {
