@@ -35,12 +35,14 @@ class ExerciceList extends StatefulWidget {
 }
 
 class _ExerciceListState extends State<ExerciceList> {
+  
  @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
 
         body: Container(
-          child: buildListExcercies(),
+          child: buildListExcercies(args.program.id),
         ),
         floatingActionButton: 
              FloatingActionButton(
@@ -64,7 +66,10 @@ class _ExerciceListState extends State<ExerciceList> {
                 IconButton(     
                   icon: const Icon(Icons.crop),
                   onPressed: () {
-
+                    var newExercice =  Exercice(id: null, program_id: 1, name: 'Exo 1', repeat: 4, weight: 5);
+                    var newExercice2 =  Exercice(id: null, program_id: 1, name: 'Exo 2', repeat: 6, weight: 15);
+                    Exercice.insertExercice(newExercice);
+                    Exercice.insertExercice(newExercice2);
               },
                 ),
               ],
@@ -76,9 +81,9 @@ class _ExerciceListState extends State<ExerciceList> {
 
 
   var delayInitial = 4;
-  buildListExcercies() {
+  buildListExcercies(programId) {
 
-    Future<List<Exercice>> callAsyncFetch() => Future.delayed(Duration(seconds: delayInitial), () => Exercice.getExercicesWithProgramId(1));
+    Future<List<Exercice>> callAsyncFetch() => Future.delayed(Duration(seconds: delayInitial), () => Exercice.getExercicesWithProgramId(programId));
     return FutureBuilder<List<Exercice>>(
       future: callAsyncFetch(),
       builder: (context, AsyncSnapshot<List<Exercice>> snapshot) {
@@ -122,6 +127,7 @@ class _ExerciceListState extends State<ExerciceList> {
             //     ),
             //   );
           },
+          leading: Text('Répetition : ' + exercice.repeat.toString() + ' Charges : ' + exercice.weight.toString()),
           trailing: IconButton(onPressed: (){
             Program.deleteProgram(exercice.id ?? 0);
             setState(() {});
