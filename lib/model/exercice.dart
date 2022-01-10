@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
-import 'dbtest.dart';
+import 'db_test.dart';
 
 class Exercice {
    late final int? id;
@@ -49,12 +49,15 @@ class Exercice {
 }
 
   // A method that retrieves all the programs from the program table.
-static Future<List<Exercice>> getExercices() async {
+static Future<List<Exercice>> getExercicesWithProgramId(id) async {
   // Get a reference to the database.
     final Database db = await dbtest.initializeDB();
 
   // Query the table for all The Dogs.
-  final List<Map<String, dynamic>> maps = await db.query('exercice');
+  final List<Map<String, dynamic>> maps = await db.query('exercice',
+  where: 'program_id = ?',
+  whereArgs: [id],
+  );
 
   // Convert the List<Map<String, dynamic> into a List<Program>.
   return List.generate(maps.length, (i) {
