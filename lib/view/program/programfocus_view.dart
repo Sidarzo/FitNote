@@ -3,6 +3,8 @@ import '../../model/exercise.dart';
 import 'package:flutter/material.dart';
 import '../../component/custom_app_bar.dart';
 import '/view/exercise/exercise_form.dart' as ExerciseForm;
+import '../../main.dart' as MainView;
+
 
 
 
@@ -24,6 +26,13 @@ class ProgramFocusScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(args.program.name),
         centerTitle: true,
+        leading: IconButton(onPressed: (){
+          Navigator.pushNamed(
+            context,
+            MainView.MyApp.routeName,
+            arguments: null,
+          ); 
+        }, icon: Icon(Icons.arrow_back)),
       ),
       body: const ExerciseList(),
     );
@@ -112,9 +121,11 @@ class _ExerciseListState extends State<ExerciseList> {
           },
           leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString()),
           trailing: IconButton(onPressed: (){
-            
-            Program.deleteProgram(exercise.id ?? 0);
-            setState(() {});
+              
+            setState(() {
+              print(exercise.id);
+              Program.deleteProgram(exercise.id ?? 0);
+            });
           }, icon: const Icon(Icons.delete)),
     );
   }

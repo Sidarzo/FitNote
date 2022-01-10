@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../../model/exercise.dart';
 import '../../model/program.dart';
 import '/view/program/programfocus_view.dart' as Programfocus;
-
-
 import '../../main.dart' as MainView;
 
 
