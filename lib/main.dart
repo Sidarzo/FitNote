@@ -3,6 +3,8 @@ import '../model/program.dart';
 import '/view/program_form.dart' as Programform;
 import 'dart:developer';
 import '/view/programfocus_view.dart' as Programfocus;
+import '../component/custom_app_bar.dart';
+
 
 
 
@@ -70,22 +72,7 @@ class _HomePageState extends State<HomePage> {
                 child: const Icon(Icons.add),
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-              bottomNavigationBar: BottomAppBar(
-              shape: CircularNotchedRectangle(),
-              color: Colors.blue,
-              child: IconTheme(
-                data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(     
-                      icon: const Icon(Icons.crop),
-                      onPressed: () {
-                      },
-                ),
-              ],
-            ),
-          ),
-        ),
+              bottomNavigationBar: CustomBottomAppBar.buildAppBar(),
       ),
     );
   }
@@ -137,7 +124,6 @@ class _HomePageState extends State<HomePage> {
               );
           },
           trailing: IconButton(onPressed: (){
-            
             setState(() {
               Program.deleteProgram(program.id ?? 0);
             });

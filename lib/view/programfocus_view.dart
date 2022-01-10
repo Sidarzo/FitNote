@@ -1,6 +1,7 @@
 import '../model/program.dart';
 import '../model/exercice.dart';
 import 'package:flutter/material.dart';
+import '../component/custom_app_bar.dart';
 
 
 
@@ -56,26 +57,7 @@ class _ExerciceListState extends State<ExerciceList> {
                 child: const Icon(Icons.add),
               ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: BottomAppBar(
-            shape: CircularNotchedRectangle(),
-            color: Colors.blue,
-            child: IconTheme(
-            data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-            child: Row(
-              children: <Widget>[
-                IconButton(     
-                  icon: const Icon(Icons.crop),
-                  onPressed: () {
-                    var newExercice =  Exercice(id: null, program_id: 10, name: 'Exo 1', repeat: 4, weight: 5);
-                    var newExercice2 =  Exercice(id: null, program_id: 10, name: 'Exo 2', repeat: 6, weight: 15);
-                    Exercice.insertExercice(newExercice);
-                    Exercice.insertExercice(newExercice2);
-              },
-                ),
-              ],
-            ),
-          ),
-        ),
+            bottomNavigationBar: CustomBottomAppBar.buildAppBar(),
     );
   }
 
