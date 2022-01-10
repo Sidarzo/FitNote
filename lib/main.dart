@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/program.dart';
-import '/view/program_form.dart' as formProgramView;
+import '/view/program_form.dart' as Programform;
 import 'dart:developer';
 import '/view/programfocus_view.dart' as Programfocus;
 
@@ -13,6 +13,8 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+    static const routeName = '/main';
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,10 @@ class MyApp extends StatelessWidget {
         routes: {
         Programfocus.ProgramFocusScreen.routeName: (context) =>
             const Programfocus.ProgramFocusScreen(),
+        Programform.Programform.routeName: (context) =>
+            const Programform.Programform(),
+        MyApp.routeName: (context) =>
+            const MyApp(),
       },
       title: 'Fitnote',
       theme: ThemeData(
@@ -54,27 +60,27 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: 
              FloatingActionButton(
                 onPressed: () async {
-                   Navigator.push(
-                   context,
-                  MaterialPageRoute(builder: (context) => formProgramView.programform()),
-                );
+                  Navigator.pushNamed(
+                  context,
+                  Programform.Programform.routeName,
+                  arguments: null,
+              );
                 },
                 tooltip: 'Create',
                 child: const Icon(Icons.add),
               ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      color: Colors.blue,
-      child: IconTheme(
-        data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-        child: Row(
-          children: <Widget>[
-            IconButton(     
-              icon: const Icon(Icons.crop),
-              onPressed: () {
-
-              },
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: BottomAppBar(
+              shape: CircularNotchedRectangle(),
+              color: Colors.blue,
+              child: IconTheme(
+                data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+                child: Row(
+                  children: <Widget>[
+                    IconButton(     
+                      icon: const Icon(Icons.crop),
+                      onPressed: () {
+                      },
                 ),
               ],
             ),
@@ -84,15 +90,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  var delayInitial = 4;
   buildListPrograms() {
 
-    Future<List<Program>> callAsyncFetch() => Future.delayed(Duration(seconds: delayInitial), () => Program.getPrograms());
+    Future<List<Program>> callAsyncFetch() => Future.delayed(Duration(seconds: 1), () => Program.getPrograms());
     return FutureBuilder<List<Program>>(
       future: callAsyncFetch(),
       builder: (context, AsyncSnapshot<List<Program>> snapshot) {
         if (snapshot.hasData) {
-          delayInitial =- 3;
           return ListView.builder( 
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -133,8 +137,10 @@ class _HomePageState extends State<HomePage> {
               );
           },
           trailing: IconButton(onPressed: (){
-            Program.deleteProgram(program.id ?? 0);
-            setState(() {});
+            
+            setState(() {
+              Program.deleteProgram(program.id ?? 0);
+            });
           }, icon: const Icon(Icons.delete)),
     );
   }

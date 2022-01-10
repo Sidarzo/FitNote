@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import '../model/program.dart';
-import '../main.dart';
+import '../main.dart' as MainView;
 
 
-class programform extends StatefulWidget {
-  const programform({ Key? key }) : super(key: key);
+class Programform extends StatefulWidget {
+  const Programform({ Key? key }) : super(key: key);
+  
+  static const routeName = '/programform';
 
   @override
   _programformState createState() => _programformState();
 }
 
-class _programformState extends State<programform> {
+class _programformState extends State<Programform> {
   @override
   
   final _formKey = GlobalKey<FormState>();
@@ -54,12 +56,11 @@ class _programformState extends State<programform> {
                    await Program.insertProgram(newProgram);
                    
                 }
-                setState(() {
-    
-                });
-                Navigator.pop(context);
-
-            
+                  Navigator.pushNamed(
+                  context,
+                  MainView.MyApp.routeName,
+                  arguments: null,
+              );
               },
               child: const Text('Créer le programme'),
             ),
@@ -69,4 +70,11 @@ class _programformState extends State<programform> {
     ),
     );
   }
+}
+
+class ScreenArguments {
+  final Program program;
+
+  ScreenArguments(this.program);
+
 }

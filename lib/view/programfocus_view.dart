@@ -66,8 +66,8 @@ class _ExerciceListState extends State<ExerciceList> {
                 IconButton(     
                   icon: const Icon(Icons.crop),
                   onPressed: () {
-                    var newExercice =  Exercice(id: null, program_id: 1, name: 'Exo 1', repeat: 4, weight: 5);
-                    var newExercice2 =  Exercice(id: null, program_id: 1, name: 'Exo 2', repeat: 6, weight: 15);
+                    var newExercice =  Exercice(id: null, program_id: 10, name: 'Exo 1', repeat: 4, weight: 5);
+                    var newExercice2 =  Exercice(id: null, program_id: 10, name: 'Exo 2', repeat: 6, weight: 15);
                     Exercice.insertExercice(newExercice);
                     Exercice.insertExercice(newExercice2);
               },
@@ -80,15 +80,13 @@ class _ExerciceListState extends State<ExerciceList> {
   }
 
 
-  var delayInitial = 4;
   buildListExcercies(programId) {
 
-    Future<List<Exercice>> callAsyncFetch() => Future.delayed(Duration(seconds: delayInitial), () => Exercice.getExercicesWithProgramId(programId));
+    Future<List<Exercice>> callAsyncFetch() => Future.delayed(Duration(seconds: 2), () => Exercice.getExercicesWithProgramId(programId));
     return FutureBuilder<List<Exercice>>(
       future: callAsyncFetch(),
       builder: (context, AsyncSnapshot<List<Exercice>> snapshot) {
         if (snapshot.hasData) {
-          delayInitial =- 3;
           return ListView.builder( 
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -129,6 +127,7 @@ class _ExerciceListState extends State<ExerciceList> {
           },
           leading: Text('Répetition : ' + exercice.repeat.toString() + ' Charges : ' + exercice.weight.toString()),
           trailing: IconButton(onPressed: (){
+            
             Program.deleteProgram(exercice.id ?? 0);
             setState(() {});
           }, icon: const Icon(Icons.delete)),
