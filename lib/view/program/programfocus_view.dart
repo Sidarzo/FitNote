@@ -1,7 +1,9 @@
 import '../../model/program.dart';
-import '../../model/exercice.dart';
+import '../../model/exercise.dart';
 import 'package:flutter/material.dart';
 import '../../component/custom_app_bar.dart';
+import '/view/exercise/exercise_form.dart' as ExerciseForm;
+
 
 
 
@@ -23,19 +25,19 @@ class ProgramFocusScreen extends StatelessWidget {
         title: Text(args.program.name),
         centerTitle: true,
       ),
-      body: const ExerciceList(),
+      body: const ExerciseList(),
     );
   }
 }
 
-class ExerciceList extends StatefulWidget {
-  const ExerciceList({ Key? key }) : super(key: key);
+class ExerciseList extends StatefulWidget {
+  const ExerciseList({ Key? key }) : super(key: key);
 
   @override
-  _ExerciceListState createState() => _ExerciceListState();
+  _ExerciseListState createState() => _ExerciseListState();
 }
 
-class _ExerciceListState extends State<ExerciceList> {
+class _ExerciseListState extends State<ExerciseList> {
   
  @override
   Widget build(BuildContext context) {
@@ -48,11 +50,11 @@ class _ExerciceListState extends State<ExerciceList> {
         floatingActionButton: 
              FloatingActionButton(
                 onPressed: () async {
-                //   Navigator.pushNamed(
-                //   context,
-                //   Programform.Programform.routeName,
-                //   arguments: null,
-                //  );
+                   Navigator.pushNamed(
+                   context,
+                   ExerciseForm.Exerciseform.routeName,
+                   arguments: ExerciseForm.ScreenArguments(args.program),
+                  );
                 },
                 tooltip: 'Create',
                 child: const Icon(Icons.add),
@@ -65,10 +67,10 @@ class _ExerciceListState extends State<ExerciceList> {
 
   buildListExcercies(programId) {
 
-    Future<List<Exercice>> callAsyncFetch() => Future.delayed(Duration(seconds: 2), () => Exercice.getExercicesWithProgramId(programId));
-    return FutureBuilder<List<Exercice>>(
+    Future<List<Exercise>> callAsyncFetch() => Future.delayed(Duration(seconds: 2), () => Exercise.getExercisesWithProgramId(programId));
+    return FutureBuilder<List<Exercise>>(
       future: callAsyncFetch(),
-      builder: (context, AsyncSnapshot<List<Exercice>> snapshot) {
+      builder: (context, AsyncSnapshot<List<Exercise>> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder( 
             scrollDirection: Axis.vertical,
@@ -88,13 +90,13 @@ class _ExerciceListState extends State<ExerciceList> {
 
 
    var index = 0;
-  buildRow(Exercice exercice) {
+  buildRow(Exercise exercise) {
     index++;
-    exercice.name;
+    exercise.name;
     return
     ListTile(
        title: 
-        Text(exercice.name, style: const TextStyle(
+        Text(exercise.name, style: const TextStyle(
           // color:  Color(0xFF043b90),
           // fontWeight: FontWeight.bold,
             ),
@@ -108,10 +110,10 @@ class _ExerciceListState extends State<ExerciceList> {
             //     ),
             //   );
           },
-          leading: Text('Répetition : ' + exercice.repeat.toString() + ' Charges : ' + exercice.weight.toString()),
+          leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString()),
           trailing: IconButton(onPressed: (){
             
-            Program.deleteProgram(exercice.id ?? 0);
+            Program.deleteProgram(exercise.id ?? 0);
             setState(() {});
           }, icon: const Icon(Icons.delete)),
     );

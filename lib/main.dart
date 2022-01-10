@@ -4,6 +4,7 @@ import '/view/program/program_form.dart' as Programform;
 import 'dart:developer';
 import '/view/program/programfocus_view.dart' as Programfocus;
 import '../component/custom_app_bar.dart';
+import '/view/exercise/exercise_form.dart';
 
 
 
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
             const Programform.Programform(),
         MyApp.routeName: (context) =>
             const MyApp(),
+        Exerciseform.routeName: (context) =>
+            const Exerciseform(),    
+
       },
       title: 'Fitnote',
       theme: ThemeData(

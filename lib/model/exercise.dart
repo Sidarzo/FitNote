@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 import 'db_test.dart';
 
-class Exercice {
+class Exercise {
    late final int? id;
    final int program_id;
    final String name;
@@ -11,7 +11,7 @@ class Exercice {
 
 
 
-  Exercice(
+  Exercise(
       {required this.id,
       required this.program_id,
       required this.name,
@@ -20,7 +20,7 @@ class Exercice {
       });
 
 
-  Exercice.fromMap(Map<String, dynamic> res)
+  Exercise.fromMap(Map<String, dynamic> res)
       : id = res["id"],
         program_id = res["program_id"],
         name = res["name"],
@@ -33,7 +33,7 @@ class Exercice {
 
 
 // Define a function that inserts dogs into the database
- static Future<void> insertExercice(Exercice exercice) async {
+ static Future<void> insertExercise(Exercise exercise) async {
   // Get a reference to the database.
     final Database db = await dbtest.initializeDB();
 
@@ -43,13 +43,13 @@ class Exercice {
   // In this case, replace any previous data.
   await db.insert(
     'exercice',
-    exercice.toMap(),
+    exercise.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 }
 
   // A method that retrieves all the programs from the program table.
-static Future<List<Exercice>> getExercicesWithProgramId(id) async {
+static Future<List<Exercise>> getExercisesWithProgramId(id) async {
   // Get a reference to the database.
     final Database db = await dbtest.initializeDB();
 
@@ -61,7 +61,7 @@ static Future<List<Exercice>> getExercicesWithProgramId(id) async {
 
   // Convert the List<Map<String, dynamic> into a List<Program>.
   return List.generate(maps.length, (i) {
-    return Exercice(
+    return Exercise(
       id: maps[i]['id'],
       program_id: maps[i]['program_id'],
       name: maps[i]['name'],
@@ -71,7 +71,7 @@ static Future<List<Exercice>> getExercicesWithProgramId(id) async {
   });
 }
 
-static Future<void> deleteExercice(int id) async {
+static Future<void> deleteExercise(int id) async {
   // Get a reference to the database.
     final Database db = await dbtest.initializeDB();
 
