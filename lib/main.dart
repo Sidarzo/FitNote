@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../model/program.dart';
-import '/view/program_form.dart' as Programform;
+import '/view/program/program_form.dart' as Programform;
 import 'dart:developer';
-import '/view/programfocus_view.dart' as Programfocus;
+import '/view/program/programfocus_view.dart' as Programfocus;
 import '../component/custom_app_bar.dart';
 
 

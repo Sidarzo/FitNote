@@ -45,7 +45,8 @@ class _programformState extends State<Programform> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
+            child: Center(
+              child: ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   String name = nameEditingController.text;
@@ -63,6 +64,7 @@ class _programformState extends State<Programform> {
               },
               child: const Text('Créer le programme'),
             ),
+          ),
           ),
         ],
       ),
