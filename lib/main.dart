@@ -132,6 +132,7 @@ class _HomePageState extends State<HomePage> {
               Program.deleteProgram(program.id ?? 0);
             });
           }, icon: const Icon(Icons.delete)),
+      hoverColor: Colors.grey,
     );
   }
 }

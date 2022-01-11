@@ -120,7 +120,7 @@ class _ExerciseListState extends State<ExerciseList> {
             //     ),
             //   );
           },
-          leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString() + 'ID MACHINE :' + exercise.machine_id.toString()),
+          leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString()),
           trailing: IconButton(onPressed: (){
               
             setState(() {
