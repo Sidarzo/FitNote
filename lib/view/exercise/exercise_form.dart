@@ -88,8 +88,6 @@ class _exerciseState extends State<Exerciseform> {
                     print(e);
                     weightInt = 0;
                   }
-
-
                 var newMachine = Machine(id:1,name: 'ButterFly',type: 'Musculation');
                  var newExo = Exercise(
                      id: null,

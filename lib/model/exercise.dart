@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 import 'db_test.dart';
-import 'machine.dart';
 
 class Exercise {
    late final int? id;

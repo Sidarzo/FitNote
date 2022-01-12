@@ -69,7 +69,7 @@ class _ExerciseListState extends State<ExerciseList> {
                 child: const Icon(Icons.add),
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: CustomBottomAppBar.buildAppBar(),
+            bottomNavigationBar: CustomBottomAppBar.buildAppBar(context),
     );
   }
 

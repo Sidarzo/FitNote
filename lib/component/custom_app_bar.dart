@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 
 class CustomBottomAppBar{
 
-  static BottomAppBar buildAppBar(){
-    return BottomAppBar(
+
+
+  static BottomAppBar buildAppBar(context){
+      return BottomAppBar(
             shape: CircularNotchedRectangle(),
             color: Colors.blue,
             child: IconTheme(
             data: IconThemeData(color: Colors.white),
             child: Row(
               children: <Widget>[
-                IconButton(     
-                  icon: const Icon(Icons.crop),
+                IconButton(    
+                  tooltip: 'Enregistrer des machines', 
+                  icon: const Icon(Icons.sports_mma),
                   onPressed: () {
 
-              },
+                  },
                 ),
               ],
             ),
           ),
-      ); 
+      );
+    }
   }
-}
