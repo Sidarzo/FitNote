@@ -25,21 +25,21 @@ class dbtest {
                   await database.execute( "CREATE TABLE program(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
                   await database.execute( "CREATE TABLE machine(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL,type TEXT NOT NULL)");
                 }
-                 if (newVersion == 7) {
+                 if (newVersion == 8) {
                   await database.execute("DROP TABLE exercice");
                   await database.execute("DROP TABLE program");
-                  await database.execute("DROP TABLE machine");
-                  await database.execute("CREATE TABLE exercice(id INTEGER PRIMARY KEY AUTOINCREMENT,program_id INTEGER, name TEXT NOT NULL,repeat INTEGER NOT NULL,weight INTEGER NOT NULL,machine_id INTEGER NOT NULL)");
+                  await database.execute('DROP TABLE exercise_type ');
+                  await database.execute("CREATE TABLE exercice(id INTEGER PRIMARY KEY AUTOINCREMENT,program_id INTEGER, name TEXT NOT NULL,repeat INTEGER NOT NULL,weight INTEGER NOT NULL,type_id INTEGER NOT NULL)");
                   await database.execute( "CREATE TABLE program(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
-                  await database.execute( "CREATE TABLE exercice_type(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
-                  await database.execute("INSERT INTO table (id, name VALUES (null, 'Cardio')");
-                  await database.execute("INSERT INTO table (id, name VALUES (null, 'Musculation')");
+                  await database.execute( "CREATE TABLE exercise_type(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
+                  await database.execute("INSERT INTO exercise_type VALUES (null, 'Cardio')");
+                  await database.execute("INSERT INTO exercise_type VALUES (null, 'Musculation')");
 
 
                 }
                 await batch.commit();
               },
-      version: 6,
+      version: 8,
     );
   }
 }

@@ -5,7 +5,6 @@ import 'dart:developer';
 import '/view/program/programfocus_view.dart' as Programfocus;
 import '../component/custom_app_bar.dart';
 import '/view/exercise/exercise_form.dart';
-import '/view/machine/machine_view.dart';
 
 
 
@@ -30,9 +29,7 @@ class MyApp extends StatelessWidget {
         MyApp.routeName: (context) =>
             const MyApp(),
         Exerciseform.routeName: (context) =>
-            const Exerciseform(),
-        MachineScreen.routeName: (context) =>
-            const MachineScreen(),       
+            const Exerciseform(),      
 
       },
       title: 'Fitnote',

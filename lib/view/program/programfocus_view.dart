@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../component/custom_app_bar.dart';
 import '/view/exercise/exercise_form.dart' as ExerciseForm;
 import '../../main.dart' as MainView;
-import '../../model/machine.dart';
 
 
 
@@ -98,36 +97,39 @@ class _ExerciseListState extends State<ExerciseList> {
   }
 
 
-   var index = 0;
   buildRow(Exercise exercise) {
-    index++;
     exercise.name;
-
-    return
-    ListTile(
-       title: 
-        Text(exercise.name, style: const TextStyle(
-          // color:  Color(0xFF043b90),
-          // fontWeight: FontWeight.bold,
+    return Container(
+      child: 
+        Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+          title: 
+          Text('Exercice : ' + exercise.name, style: const TextStyle(
+            // color:  Color(0xFF043b90),
+            // fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-         // leading: Text('Programme n°' + (index).toString()),
-          onTap: (){
-            //  Navigator.pushNamed(
-            //     context,
-            //     Programfocus.ProgramFocusScreen.routeName,
-            //     arguments: Programfocus.ScreenArguments(program,
-            //     ),
-            //   );
-          },
-          leading: Text('Répetition : ' + exercise.repeat.toString() + ' Charges : ' + exercise.weight.toString()),
-          trailing: IconButton(onPressed: (){
-              
-            setState(() {
-              print(exercise.id);
-              Exercise.deleteExercise(exercise.id ?? 0);
-            });
-          }, icon: const Icon(Icons.delete)),
+            trailing: IconButton(onPressed: (){
+                
+              setState(() {
+                print(exercise.id);
+                Exercise.deleteExercise(exercise.id ?? 0);
+              });
+            }, icon: const Icon(Icons.delete)),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Charges ' + exercise.weight.toString() + 'kg'),
+                const SizedBox(width: 8),
+              ],
+            ),
+          ],
+        ),
+      ), 
     );
   }
 }

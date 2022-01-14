@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../model/exercise.dart';
 import '../../model/program.dart';
-import '../../model/machine.dart';
 import '/view/program/programfocus_view.dart' as programfocus_view;
 import '../../main.dart' as MainView;
 
@@ -21,7 +20,8 @@ class _exerciseState extends State<Exerciseform> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameEditingController = TextEditingController();
   final TextEditingController weightEditingController = TextEditingController();
-
+  var dropdownValue = 'Musculation';
+  bool muscuSelected = true;
   final name ='Error';
   var currentSliderValue = 0.00;
 
@@ -49,19 +49,42 @@ class _exerciseState extends State<Exerciseform> {
               return null;
             },
           ),
-          TextFormField(
-            controller: weightEditingController,
-            decoration: InputDecoration(label: Text('Charges')),
-            keyboardType: TextInputType.number,
-            validator: (formWeight) {
-              if (formWeight == null || formWeight.isEmpty) {
-                return 'Rentrez un poids valide';
-              }
-           //   formWeight = int.parse(formWeight);
-              return null;
-            },
-          ),
-          Text('Répétitions :'),
+            DropdownButton<String>(
+              value: dropdownValue,
+              icon: const Icon(Icons.arrow_downward),
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: <String>['Cardio', 'Musculation']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            muscuSelected ? 
+              TextFormField(
+              controller: weightEditingController,
+              decoration: InputDecoration(label: Text('Charges')),
+              keyboardType: TextInputType.number,
+              validator: (formWeight) {
+                if (formWeight == null || formWeight.isEmpty) {
+                  return 'Rentrez un poids valide';
+                }
+            //   formWeight = int.parse(formWeight);
+                return null;
+              },
+            ) : Text('data'),
+          muscuSelected ? 
           Slider(
               value: currentSliderValue,
               max: 10,
@@ -72,7 +95,10 @@ class _exerciseState extends State<Exerciseform> {
                   currentSliderValue = value;
                 });
               },
-            ),
+            ) : Text('data'),
+
+
+
               Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Center(
@@ -88,14 +114,13 @@ class _exerciseState extends State<Exerciseform> {
                     print(e);
                     weightInt = 0;
                   }
-                var newMachine = Machine(id:1,name: 'ButterFly',type: 'Musculation');
                  var newExo = Exercise(
                      id: null,
                      program_id: args.program.id ?? 0,
                      name: name,
                      repeat:currentSliderValue.round(),
                      weight: weightInt, 
-                     machine_id: newMachine.id ?? 0,
+                     type_id: 0,
                    );  
                    await Exercise.insertExercise(newExo);
                 Navigator.pushNamed(

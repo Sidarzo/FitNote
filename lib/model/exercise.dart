@@ -8,7 +8,7 @@ class Exercise {
    final String name;
    final int repeat;
    final int weight;
-   final int machine_id;
+   final int type_id;
 
 
 
@@ -18,7 +18,7 @@ class Exercise {
       required this.name,
       required this.repeat,
       required this.weight,
-      required this.machine_id,
+      required this.type_id,
       });
 
 
@@ -28,10 +28,10 @@ class Exercise {
         name = res["name"],
         repeat = res["repeat"],
         weight = res["weight"],
-        machine_id = res['machine_id'];
+        type_id = res['type_id'];
 
   Map<String, Object?> toMap() {
-    return {'id':id,'program_id': program_id,'name': name,'repeat': repeat,'weight': weight,'machine_id':machine_id};
+    return {'id':id,'program_id': program_id,'name': name,'repeat': repeat,'weight': weight,'type_id':type_id};
   }
 
 
@@ -70,7 +70,7 @@ static Future<List<Exercise>> getExercisesWithProgramId(id) async {
       name: maps[i]['name'],
       repeat: maps[i]['repeat'],
       weight: maps[i]['weight'],
-      machine_id: maps[i]['machine_id']
+      type_id: maps[i]['type_id']
     );
   });
 }
