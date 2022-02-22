@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 class CustomBottomAppBar{
 
-
-
   static BottomAppBar buildAppBar(context){
       return BottomAppBar(
             shape: CircularNotchedRectangle(),
@@ -13,8 +11,9 @@ class CustomBottomAppBar{
             child: Row(
               children: <Widget>[
                 IconButton(    
-                  tooltip: 'Enregistrer des machines', 
-                  icon: const Icon(Icons.sports_mma),
+                  tooltip: 'Params', 
+                  splashRadius: 0.1,
+                  icon: const Icon(Icons.account_box_rounded),
                   onPressed: () {
 
                   },

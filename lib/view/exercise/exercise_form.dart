@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../model/exercise.dart';
 import '../../model/program.dart';
 import '/view/program/programfocus_view.dart' as programfocus_view;
-import '../../main.dart' as MainView;
 
 
 class Exerciseform extends StatefulWidget {
@@ -19,7 +18,7 @@ class _exerciseState extends State<Exerciseform> {
   
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nameEditingController = TextEditingController();
-  final TextEditingController weightEditingController = TextEditingController();
+  final TextEditingController informationEditingController = TextEditingController();
   var dropdownValue = 'Musculation';
   bool muscuSelected = true;
   final name ='Error';
@@ -49,53 +48,30 @@ class _exerciseState extends State<Exerciseform> {
               return null;
             },
           ),
-            DropdownButton<String>(
-              value: dropdownValue,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-              },
-              items: <String>['Cardio', 'Musculation']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            muscuSelected ? 
-              TextFormField(
-              controller: weightEditingController,
-              decoration: InputDecoration(label: Text('Charges')),
+
+            TextFormField(
+              controller: informationEditingController,
+              decoration: const InputDecoration(label: Text('Informations ex : type, repets...')),
               keyboardType: TextInputType.number,
               validator: (formWeight) {
                 if (formWeight == null || formWeight.isEmpty) {
-                  return 'Rentrez un poids valide';
+                  return 'Rentrez des informations';
                 }
             //   formWeight = int.parse(formWeight);
                 return null;
               },
-            ) : Text('data'),
-          muscuSelected ? 
+            ),
+          Text('Charges : ' + currentSliderValue.toString()),
           Slider(
               value: currentSliderValue,
-              max: 10,
-              divisions: 10,
-              label: currentSliderValue.round().toString(),
+              max: 100,
+              divisions: 100,
               onChanged: (double value) {
                 setState(() {
                   currentSliderValue = value;
                 });
               },
-            ) : Text('data'),
+            ),
 
 
 
@@ -106,7 +82,7 @@ class _exerciseState extends State<Exerciseform> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   String name = nameEditingController.text;
-                  String weightString = weightEditingController.text;
+                  String weightString = informationEditingController.text;
                   int weightInt;
                   try{
                     weightInt = int.parse(weightString);
@@ -139,6 +115,7 @@ class _exerciseState extends State<Exerciseform> {
     ),
     );
   }
+  
   
 }
 
