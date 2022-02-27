@@ -1,9 +1,8 @@
-import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
 class Program {
-  late final int? id;
+  final int id;
   final String name;
 
   Program({
@@ -12,8 +11,8 @@ class Program {
   });
 
   Program.fromMap(Map<String, dynamic> res)
-      : id = res["id"],
-        name = res["name"];
+      : id = res['id'],
+        name = res['name'];
 
   Map<String, Object?> toMap() {
     return {'id': id, 'name': name};

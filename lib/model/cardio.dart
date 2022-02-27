@@ -3,34 +3,36 @@ import 'db.dart';
 
  
 
-class Exercise {
-  late final int? id;
-  final int title;
-  final String program_id;
+class Cardio {
+  final int id;
+  final int duration;
+  final String description;
 
 
-  Exercise({
+
+
+
+  Cardio({
     required this.id,
-    required this.title,
-    required this.program_id,
-
+    required this.duration,
+    required this.description,
   });
 
-  Exercise.fromMap(Map<String, dynamic> res)
-      : id = res['id'],
-        title = res['title'],
-        program_id = res['program_id'];
+  Cardio.fromMap(Map<String, dynamic> res)
+      : id = res["id"],
+        duration = res["duration"],
+        description = res["description"];
 
   Map<String, Object?> toMap() {
     return {
       'id': id,
-      'title': title,
-      'program_id': program_id,
+      'duration': duration,
+      'description': description,
     };
   }
 
 // Define a function that inserts dogs into the database
-  static Future<void> insertExercise(Exercise exercise) async {
+  static Future<void> insertExercise(Cardio cardio) async {
     // Get a reference to the database.
     final Database db = await dbFitNote.initializeDB();
 
@@ -40,13 +42,13 @@ class Exercise {
     // In this case, replace any previous data.
     await db.insert(
       'exercise',
-      exercise.toMap(),
+      cardio.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   // A method that retrieves all the programs from the program table.
-  static Future<List<Exercise>> getExercisesWithProgramId(id) async {
+  static Future<List<Cardio>> getExercisesWithProgramId(id) async {
     // Get a reference to the database.
     final Database db = await dbFitNote.initializeDB();
 
@@ -59,10 +61,13 @@ class Exercise {
 
     // Convert the List<Map<String, dynamic> into a List<Program>.
     return List.generate(maps.length, (i) {
-      return Exercise(
+      return Cardio(
           id: maps[i]['id'],
-          title: maps[i]['title'],
-          program_id: maps[i]['program_id'],
+          weight: maps[i]['weight'],
+          repetition: maps[i]['repetition'],
+          serie: maps[i]['serie'],
+          restDuration: maps[i]['restDuration'],
+          exercise_id: maps[i]['exercise_id'],
           );
     });
   }

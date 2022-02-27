@@ -1,31 +1,40 @@
+import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
- 
-
 class Exercise {
   late final int? id;
-  final int title;
-  final String program_id;
-
+  final int program_id;
+  final String name;
+  final int repeat;
+  final int weight;
+  final int type_id;
 
   Exercise({
     required this.id,
-    required this.title,
     required this.program_id,
-
+    required this.name,
+    required this.repeat,
+    required this.weight,
+    required this.type_id,
   });
 
   Exercise.fromMap(Map<String, dynamic> res)
-      : id = res['id'],
-        title = res['title'],
-        program_id = res['program_id'];
+      : id = res["id"],
+        program_id = res["program_id"],
+        name = res["name"],
+        repeat = res["repeat"],
+        weight = res["weight"],
+        type_id = res['type_id'];
 
   Map<String, Object?> toMap() {
     return {
       'id': id,
-      'title': title,
       'program_id': program_id,
+      'name': name,
+      'repeat': repeat,
+      'weight': weight,
+      'type_id': type_id
     };
   }
 
@@ -61,9 +70,11 @@ class Exercise {
     return List.generate(maps.length, (i) {
       return Exercise(
           id: maps[i]['id'],
-          title: maps[i]['title'],
           program_id: maps[i]['program_id'],
-          );
+          name: maps[i]['name'],
+          repeat: maps[i]['repeat'],
+          weight: maps[i]['weight'],
+          type_id: maps[i]['type_id']);
     });
   }
 
