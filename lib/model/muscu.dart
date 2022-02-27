@@ -1,45 +1,51 @@
-import 'dart:typed_data';
 import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
-class Exercise {
-  late final int? id;
-  final int program_id;
-  final String name;
-  final int repeat;
-  final int weight;
-  final int type_id;
+ 
 
-  Exercise({
+class Muscu {
+  final int? id;
+  final double weight;
+  final int repetition;
+  final int serie;
+  final int restDuration;
+  final int exercise_id;
+
+
+
+
+  Muscu({
     required this.id,
-    required this.program_id,
-    required this.name,
-    required this.repeat,
     required this.weight,
-    required this.type_id,
+    required this.repetition,
+    required this.serie,
+    required this.restDuration,
+    required this.exercise_id,
+
+
   });
 
-  Exercise.fromMap(Map<String, dynamic> res)
-      : id = res["id"],
-        program_id = res["program_id"],
-        name = res["name"],
-        repeat = res["repeat"],
-        weight = res["weight"],
-        type_id = res['type_id'];
+  Muscu.fromMap(Map<String, dynamic> res)
+      : id = res['id'],
+        weight = res['weight'],
+        repetition = res['repetition'],
+        serie = res['serie'],
+        restDuration = res['restDuration'],
+        exercise_id = res['exercise_id'];
 
   Map<String, Object?> toMap() {
     return {
       'id': id,
-      'program_id': program_id,
-      'name': name,
-      'repeat': repeat,
       'weight': weight,
-      'type_id': type_id
+      'repetition': repetition,
+      'serie' : serie,
+      'restDuration' : restDuration,
+      'exercise_id' : exercise_id,
     };
   }
 
 // Define a function that inserts dogs into the database
-  static Future<void> insertExercise(Exercise exercise) async {
+  static Future<void> insertExercise(Muscu muscu) async {
     // Get a reference to the database.
     final Database db = await dbFitNote.initializeDB();
 
@@ -49,13 +55,13 @@ class Exercise {
     // In this case, replace any previous data.
     await db.insert(
       'exercise',
-      exercise.toMap(),
+      muscu.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   // A method that retrieves all the programs from the program table.
-  static Future<List<Exercise>> getExercisesWithProgramId(id) async {
+  static Future<List<Muscu>> getExercisesWithProgramId(id) async {
     // Get a reference to the database.
     final Database db = await dbFitNote.initializeDB();
 
@@ -68,13 +74,14 @@ class Exercise {
 
     // Convert the List<Map<String, dynamic> into a List<Program>.
     return List.generate(maps.length, (i) {
-      return Exercise(
+      return Muscu(
           id: maps[i]['id'],
-          program_id: maps[i]['program_id'],
-          name: maps[i]['name'],
-          repeat: maps[i]['repeat'],
           weight: maps[i]['weight'],
-          type_id: maps[i]['type_id']);
+          repetition: maps[i]['repetition'],
+          serie: maps[i]['serie'],
+          restDuration: maps[i]['restDuration'],
+          exercise_id: maps[i]['exercise_id'],
+          );
     });
   }
 

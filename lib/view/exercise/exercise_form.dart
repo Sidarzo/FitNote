@@ -84,15 +84,15 @@ class _exerciseState extends State<Exerciseform> {
                         print(e);
                         weightInt = 0;
                       }
-                      var newExo = Exercise(
-                        id: null,
-                        program_id: args.program.id ?? 0,
-                        name: name,
-                        repeat: currentSliderValue.round(),
-                        weight: weightInt,
-                        type_id: 0,
-                      );
-                      await Exercise.insertExercise(newExo);
+                      // var newExo = Exercise(
+                      //   id: null,
+                      //   program_id: args.program.id ?? 0,
+                      //   name: name,
+                      //   repeat: currentSliderValue.round(),
+                      //   weight: weightInt,
+                      //   type_id: 0,
+                      // );
+                      // await Exercise.insertExercise(newExo);
                       Navigator.pushNamed(
                         context,
                         programfocus_view.ProgramFocusScreen.routeName,

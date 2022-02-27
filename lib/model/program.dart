@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
 class Program {
-  final int id;
+  final int? id;
   final String name;
 
   Program({

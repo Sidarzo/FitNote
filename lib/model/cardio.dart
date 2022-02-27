@@ -1,27 +1,25 @@
 import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
- 
 
 class Cardio {
-  final int id;
+  final int? id;
   final int duration;
   final String description;
-
-
-
-
+  final int exercise_id;
 
   Cardio({
     required this.id,
     required this.duration,
     required this.description,
+    required this.exercise_id,
   });
 
   Cardio.fromMap(Map<String, dynamic> res)
-      : id = res["id"],
-        duration = res["duration"],
-        description = res["description"];
+      : id = res['id'],
+        duration = res['duration'],
+        description = res['description'],
+        exercise_id = res['exercise_id'];
 
   Map<String, Object?> toMap() {
     return {
@@ -63,10 +61,8 @@ class Cardio {
     return List.generate(maps.length, (i) {
       return Cardio(
           id: maps[i]['id'],
-          weight: maps[i]['weight'],
-          repetition: maps[i]['repetition'],
-          serie: maps[i]['serie'],
-          restDuration: maps[i]['restDuration'],
+          duration: maps[i]['duration'],
+          description: maps[i]['description'],
           exercise_id: maps[i]['exercise_id'],
           );
     });

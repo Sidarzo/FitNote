@@ -4,8 +4,8 @@ import 'db.dart';
  
 
 class Exercise {
-  late final int? id;
-  final int title;
+  final int? id;
+  final String title;
   final String program_id;
 
 

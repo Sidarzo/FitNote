@@ -98,7 +98,7 @@ class _ExerciseListState extends State<ExerciseList> {
 
 
   buildRow(Exercise exercise) {
-    exercise.name;
+    exercise.title;
     return Container(
       child: 
         Card(
@@ -107,7 +107,7 @@ class _ExerciseListState extends State<ExerciseList> {
           children: <Widget>[
             ListTile(
           title: 
-          Text('Exercice : ' + exercise.name, style: const TextStyle(
+          Text('Exercice : ' + exercise.title, style: const TextStyle(
             // color:  Color(0xFF043b90),
             // fontWeight: FontWeight.bold,
               ),
@@ -123,7 +123,7 @@ class _ExerciseListState extends State<ExerciseList> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Charges ' + exercise.weight.toString() + 'kg'),
+         //       Text('Charges ' + exercise.weight.toString() + 'kg'),
                 const SizedBox(width: 8),
               ],
             ),
