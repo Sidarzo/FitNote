@@ -9,6 +9,7 @@ class Muscu {
   final int repetition;
   final int serie;
   final int restDuration;
+  final int orderExercise;
   final int exercise_id;
 
 
@@ -20,6 +21,7 @@ class Muscu {
     required this.repetition,
     required this.serie,
     required this.restDuration,
+    required this.orderExercise,
     required this.exercise_id,
 
 
@@ -31,6 +33,7 @@ class Muscu {
         repetition = res['repetition'],
         serie = res['serie'],
         restDuration = res['restDuration'],
+        orderExercise = res['orderExercise'],
         exercise_id = res['exercise_id'];
 
   Map<String, Object?> toMap() {
@@ -40,6 +43,7 @@ class Muscu {
       'repetition': repetition,
       'serie' : serie,
       'restDuration' : restDuration,
+      'orderExercise' : orderExercise,
       'exercise_id' : exercise_id,
     };
   }
@@ -80,6 +84,7 @@ class Muscu {
           repetition: maps[i]['repetition'],
           serie: maps[i]['serie'],
           restDuration: maps[i]['restDuration'],
+          orderExercise: maps[i]['orderExercise'],
           exercise_id: maps[i]['exercise_id'],
           );
     });

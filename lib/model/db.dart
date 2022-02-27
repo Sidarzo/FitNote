@@ -12,6 +12,7 @@ class dbFitNote {
         );
       },
       onUpgrade: (database, oldVersion, newVersion) async {
+
         var batch = database.batch();
         if (newVersion == 4) {
           await database.execute(
@@ -49,10 +50,21 @@ class dbFitNote {
           await database.execute('CREATE TABLE muscu(id INTEGER PRIMARY KEY AUTOINCREMENT, weight INTEGER NOT NULL, repetition INTEGER NOT NULL, serie INTEGER NOT NULL, restDuration INTEGER NOT NULL, exercise_id INTEGER NOT NULL,FOREIGN KEY(exercise_id) REFERENCES exercise(id))');
          
         }
+        if(newVersion == 19){
+          await database.execute('DELETE FROM program');
+          await database.execute('DELETE FROM exercise');
+          await database.execute('ALTER TABLE cardio ADD orderExercice INT');
+          await database.execute('ALTER TABLE muscu ADD orderExercice INT');
+
+        }
+        if(newVersion == 20){
+          await database.execute('ALTER TABLE cardio RENAME orderExercice TO orderExercise' );
+          await database.execute('ALTER TABLE muscu RENAME orderExercice TO orderExercise');
+        }
 
         await batch.commit();
       },
-      version: 18,
+      version: 20,
     );
   }
 }
