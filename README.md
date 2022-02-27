@@ -2,6 +2,11 @@
 
 Personal project towards a school project !
 
+## Presentation
+
+Create your own sports program with its exercises !!
+Then share them with your friends!
+
 ## Technologies
 ***
 Mobile application :
