@@ -6,12 +6,14 @@ class Cardio {
   final int? id;
   final int duration;
   final String description;
+  final int orderExercise;
   final int exercise_id;
 
   Cardio({
     required this.id,
     required this.duration,
     required this.description,
+    required this.orderExercise,
     required this.exercise_id,
   });
 
@@ -19,6 +21,7 @@ class Cardio {
       : id = res['id'],
         duration = res['duration'],
         description = res['description'],
+        orderExercise = res['orderExercise'],
         exercise_id = res['exercise_id'];
 
   Map<String, Object?> toMap() {
@@ -26,6 +29,8 @@ class Cardio {
       'id': id,
       'duration': duration,
       'description': description,
+      'orderExercise': orderExercise,
+      'exercise_id': exercise_id,
     };
   }
 
@@ -63,6 +68,7 @@ class Cardio {
           id: maps[i]['id'],
           duration: maps[i]['duration'],
           description: maps[i]['description'],
+          orderExercise: maps[i]['orderExercise'],
           exercise_id: maps[i]['exercise_id'],
           );
     });
