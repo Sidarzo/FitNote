@@ -1,31 +1,58 @@
 import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
- 
-
 class Exercise {
   final int? id;
   final String title;
+  // Cardio
+  final int? duration;
+  final String? description;
+  // muscu
+  final int? weight;
+  final int? repetition;
+  final int? series;
+  final int? restDuration;
+  //type
+  final String type;
   final String program_id;
-
 
   Exercise({
     required this.id,
     required this.title,
     required this.program_id,
-
+    required this.description,
+    required this.duration,
+    required this.repetition,
+    required this.restDuration,
+    required this.series,
+    required this.weight,
+    required this.type,
   });
 
   Exercise.fromMap(Map<String, dynamic> res)
       : id = res['id'],
         title = res['title'],
-        program_id = res['program_id'];
+        program_id = res['program_id'],
+        description = res['description'],
+        duration = res['duration'],
+        repetition = res['repetition'],
+        restDuration = res['restDuration'],
+        series = res['series'],
+        weight = res['weight'],
+        type = res['type'];
 
   Map<String, Object?> toMap() {
     return {
       'id': id,
       'title': title,
       'program_id': program_id,
+      'description': description,
+      'duration': duration,
+      'repetition': repetition,
+      'restDuration': restDuration,
+      'series': series,
+      'weight': weight,
+      'type': type,
     };
   }
 
@@ -60,10 +87,17 @@ class Exercise {
     // Convert the List<Map<String, dynamic> into a List<Program>.
     return List.generate(maps.length, (i) {
       return Exercise(
-          id: maps[i]['id'],
-          title: maps[i]['title'],
-          program_id: maps[i]['program_id'],
-          );
+        id: maps[i]['id'],
+        title: maps[i]['title'],
+        program_id: maps[i]['program_id'],
+        description: maps[i]['description'],
+        duration: maps[i]['duration'],
+        repetition: maps[i]['repetition'],
+        restDuration: maps[i]['restDuration'],
+        series: maps[i]['series'],
+        weight: maps[i]['weight'],
+        type: maps[i]['type'],
+      );
     });
   }
 
