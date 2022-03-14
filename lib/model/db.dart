@@ -71,6 +71,9 @@ class dbFitNote {
           await database.execute('DELETE FROM muscu');
         }
         if (newVersion == 23) {
+          
+          await database.execute('DROP TABLE program');
+
           await database.execute('DROP TABLE exercise');
 
           await database.execute(

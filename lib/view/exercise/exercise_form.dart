@@ -24,10 +24,12 @@ class _exerciseState extends State<Exerciseform> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
+      
       appBar: AppBar(
         title: const Text('FitNote'),
         centerTitle: true,
       ),
+      
       body: Form(
         key: _formKey,
         child: Column(
@@ -49,54 +51,29 @@ class _exerciseState extends State<Exerciseform> {
                 },
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: createDivider('Duration')),
-
-            //
-            // DURATION
-            //
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FloatingActionButton(
-                      heroTag: 'durationMinus',
-                      onPressed: () {
-                        setState(() {
-                          if (durationValue > 0) {
-                            durationValue -= 1;
-                          }
-                        });
-                      },
-                      child: const Icon(Icons.exposure_minus_1,
-                          color: Colors.black),
-                      backgroundColor: Colors.white,
-                    ),
-                    Text(durationValue.toString() + ' mins',
-                        style: TextStyle(fontSize: 25.0)),
-                    FloatingActionButton(
-                      heroTag: 'durationPlus',
-                      onPressed: () {
-                        setState(() {
-                          durationValue += 1;
-                        });
-                      },
-                      child: const Icon(
-                        Icons.exposure_plus_1,
-                        color: Colors.black,
+            Expanded(child: 
+              CustomScrollView(
+                shrinkWrap: true,
+                slivers: <Widget>[
+                  SliverPadding(
+  
+                    padding: const EdgeInsets.all(0.0),
+                    sliver: SliverList(
+                      
+                      delegate: SliverChildListDelegate(
+                        <Widget>[
+                          buildMuscuForm()
+                        ],
                       ),
-                      backgroundColor: Colors.white,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: createDivider('Weight')),
+            
+
+
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Center(
@@ -126,6 +103,78 @@ class _exerciseState extends State<Exerciseform> {
       ),
     );
   }
+
+
+buildMuscuForm(){
+  var formInput = ['weight','repetition','serie','restDuration'];
+  var formInputName = ['Poids','Répétitions','Séries','Repos'];
+  var formInputValue = [0,0,0,0];
+  var magnitude = [' kg',' répét',' séries',' mins'];
+  List<Widget> finalInput = [];
+  
+  for(var i = 0; i < formInput.length; i++){
+
+    finalInput.add(
+      Column(
+        children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: createDivider(formInputName[i])
+              ),
+              //
+              // DURATION
+            //
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Center(
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+              FloatingActionButton(
+              heroTag: formInput[i] + 'Minus',
+              onPressed: () {
+                setState(() {
+                if (formInputValue[i] > 0) {
+                    formInputValue[i] -= 1;
+                  }
+                });
+                    },
+                child: const Icon(Icons.exposure_minus_1,
+                color: Colors.black),
+                backgroundColor: Colors.white,
+                ),
+                Text(formInputValue[i].toString() + magnitude[i],
+                  style: TextStyle(fontSize: 25.0)
+                  ),
+                FloatingActionButton(
+                  heroTag: formInput[i] + 'Plus',
+                  onPressed: () {
+                    setState(() {
+                      formInputValue[i] += 1;
+                    });
+
+
+                  },
+                  child: const Icon(
+                    Icons.exposure_plus_1,
+                    color: Colors.black,
+                  ),
+                  backgroundColor: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      )
+    );
+  }
+  return Column(
+      children: 
+          finalInput
+      );
+}
+
 }
 
 class ScreenArguments {
@@ -133,3 +182,4 @@ class ScreenArguments {
 
   ScreenArguments(this.program);
 }
+
