@@ -13,7 +13,6 @@ Mobile application :
 Flutter https://flutter.dev/
 
 API :
-
 Laravel
 
 ## Installation
