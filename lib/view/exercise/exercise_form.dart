@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../model/exercise.dart';
 import '../../model/program.dart';
 import '/view/program/programfocus_view.dart' as programfocus_view;
+import '../../component/divider.dart';
 
 class Exerciseform extends StatefulWidget {
   const Exerciseform({Key? key}) : super(key: key);
@@ -15,13 +16,10 @@ class Exerciseform extends StatefulWidget {
 class _exerciseState extends State<Exerciseform> {
   @override
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController nameEditingController = TextEditingController();
-  final TextEditingController informationEditingController =
-      TextEditingController();
-  var dropdownValue = 'Musculation';
-  bool muscuSelected = true;
-  final name = 'Error';
-  var currentSliderValue = 0.00;
+
+  var durationValue = 0;
 
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
@@ -35,40 +33,68 @@ class _exerciseState extends State<Exerciseform> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
-              controller: nameEditingController,
-              decoration: InputDecoration(label: Text('Nom de l\'exercice')),
-              validator: (formName) {
-                if (formName == null || formName.isEmpty) {
-                  return 'Rentrez un nom valide';
-                }
-                return null;
-              },
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextFormField(
+                controller: nameEditingController,
+                decoration: const InputDecoration(
+                  label: Text('Nom de l\'exercice'),
+                  icon: Icon(Icons.abc),
+                ),
+                validator: (formName) {
+                  if (formName == null || formName.isEmpty) {
+                    return 'Rentrez un nom valide';
+                  }
+                  return null;
+                },
+              ),
             ),
-            TextFormField(
-              controller: informationEditingController,
-              decoration: const InputDecoration(
-                  label: Text('Informations ex : type, repets...')),
-              keyboardType: TextInputType.number,
-              validator: (formWeight) {
-                if (formWeight == null || formWeight.isEmpty) {
-                  return 'Rentrez des informations';
-                }
-                //   formWeight = int.parse(formWeight);
-                return null;
-              },
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: createDivider('Duration')),
+
+            //
+            // DURATION
+            //
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          durationValue += 1;
+                        });
+                      },
+                      child: const Icon(
+                        Icons.exposure_plus_1,
+                        color: Colors.black,
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    Text(durationValue.toString() + ' mins',
+                        style: TextStyle(fontSize: 25.0)),
+                    FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          if (durationValue > 0) {
+                            durationValue -= 1;
+                          }
+                        });
+                      },
+                      child: const Icon(Icons.exposure_minus_1,
+                          color: Colors.black),
+                      backgroundColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Text('Charges : ' + currentSliderValue.toString()),
-            Slider(
-              value: currentSliderValue,
-              max: 100,
-              divisions: 100,
-              onChanged: (double value) {
-                setState(() {
-                  currentSliderValue = value;
-                });
-              },
-            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: createDivider('Weight')),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Center(
@@ -76,23 +102,11 @@ class _exerciseState extends State<Exerciseform> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       String name = nameEditingController.text;
-                      String weightString = informationEditingController.text;
-                      int weightInt;
-                      try {
-                        weightInt = int.parse(weightString);
-                      } catch (e) {
-                        print(e);
-                        weightInt = 0;
-                      }
-                      // var newExo = Exercise(
-                      //   id: null,
-                      //   program_id: args.program.id ?? 0,
-                      //   name: name,
-                      //   repeat: currentSliderValue.round(),
-                      //   weight: weightInt,
-                      //   type_id: 0,
-                      // );
-                      // await Exercise.insertExercise(newExo);
+                      var newProgram = Program(
+                        id: null,
+                        name: name,
+                      );
+                      await Program.insertProgram(newProgram);
                       Navigator.pushNamed(
                         context,
                         programfocus_view.ProgramFocusScreen.routeName,
