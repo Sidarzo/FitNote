@@ -14,7 +14,7 @@ class Exercise {
   final int? restDuration;
   //type
   final String type;
-  final String program_id;
+  final int? program_id;
 
   Exercise({
     required this.id,
