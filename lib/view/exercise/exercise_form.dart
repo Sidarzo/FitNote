@@ -63,20 +63,7 @@ class _exerciseState extends State<Exerciseform> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     FloatingActionButton(
-                      onPressed: () {
-                        setState(() {
-                          durationValue += 1;
-                        });
-                      },
-                      child: const Icon(
-                        Icons.exposure_plus_1,
-                        color: Colors.black,
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
-                    Text(durationValue.toString() + ' mins',
-                        style: TextStyle(fontSize: 25.0)),
-                    FloatingActionButton(
+                      heroTag: 'durationMinus',
                       onPressed: () {
                         setState(() {
                           if (durationValue > 0) {
@@ -86,6 +73,21 @@ class _exerciseState extends State<Exerciseform> {
                       },
                       child: const Icon(Icons.exposure_minus_1,
                           color: Colors.black),
+                      backgroundColor: Colors.white,
+                    ),
+                    Text(durationValue.toString() + ' mins',
+                        style: TextStyle(fontSize: 25.0)),
+                    FloatingActionButton(
+                      heroTag: 'durationPlus',
+                      onPressed: () {
+                        setState(() {
+                          durationValue += 1;
+                        });
+                      },
+                      child: const Icon(
+                        Icons.exposure_plus_1,
+                        color: Colors.black,
+                      ),
                       backgroundColor: Colors.white,
                     ),
                   ],
