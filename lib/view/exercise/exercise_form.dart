@@ -23,7 +23,7 @@ class _exerciseState extends State<Exerciseform> {
   var formInputName = ['Poids', 'Répétitions', 'Séries', 'Repos'];
   var formInputValue = [0, 0, 0, 0];
   var value = 0;
-  var magnitude = [' kg', ' répét', ' séries', ' mins'];
+  var magnitude = [' kg', ' répét', ' séries', ' secs'];
 
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;

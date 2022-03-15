@@ -116,7 +116,10 @@ class _ExerciseListState extends State<ExerciseList> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //       Text('Charges ' + exercise.weight.toString() + 'kg'),
+                Text('Charges ' + exercise.weight.toString() + 'kg '),
+                Text('Séries ' + exercise.serie.toString() + ' '),
+                Text('Répétitions ' + exercise.repetition.toString() + ' '),
+                Text('Repos ' + exercise.restDuration.toString() + 'secs '),
                 const SizedBox(width: 8),
               ],
             ),
