@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'db.dart';
 
@@ -116,5 +117,25 @@ class Exercise {
       // Pass the Dog's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );
+  }
+
+  static buildDescription(Exercise exercise){
+    if(exercise.type == 'Muscu'){
+      return Column(
+        children: [
+          Text('Poids : ' + exercise.weight.toString() + ' kg'),
+          Text('Répétitions : ' + exercise.repetition.toString()),
+          Text('Séries : ' + exercise.serie.toString()),
+          Text('Repos : ' + exercise.restDuration.toString() + ' secs'),
+        ],
+      );
+    }else{
+      return Column(
+        children: [
+          Text('Durée : ' + exercise.duration.toString()),
+          Text('Autre information ' + exercise.description.toString())
+        ],
+      );
+    }
   }
 }

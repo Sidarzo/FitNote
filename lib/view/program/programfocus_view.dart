@@ -144,10 +144,12 @@ class _ExerciseListState extends State<ExerciseList> {
                     ],
                   ));
             },
-            body: Container(
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+            body: 
+
+              Container(
+              padding: EdgeInsets.only(bottom: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     exercise.type,
@@ -157,9 +159,14 @@ class _ExerciseListState extends State<ExerciseList> {
                       height: 1.3,
                     ),
                   ),
+                  Exercise.buildDescription(exercise)
                 ],
               ),
             ),
+
+    
+    
+            
             isExpanded: exercise.isExpanded,
           )
         ],
