@@ -22,8 +22,10 @@ class _exerciseState extends State<Exerciseform> {
   var formInput = ['weight', 'repetition', 'serie', 'restDuration'];
   var formInputName = ['Poids', 'Répétitions', 'Séries', 'Repos'];
   var formInputValue = [0, 0, 0, 0];
-  var value = 0;
+  var durationValue = 0;
   var magnitude = [' kg', ' répét', ' séries', ' secs'];
+  bool muscuSelected = true;
+  String typeExercise = 'Muscu';
 
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
@@ -53,6 +55,31 @@ class _exerciseState extends State<Exerciseform> {
                 },
               ),
             ),
+            Center(
+              child: DropdownButton<String>(
+                value: typeExercise,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    typeExercise = newValue!;
+                    muscuSelected = !muscuSelected;
+                  });
+                },
+                items: <String>['Muscu', 'Cardio']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
             Expanded(
               child: CustomScrollView(
                 shrinkWrap: true,
@@ -61,7 +88,9 @@ class _exerciseState extends State<Exerciseform> {
                     padding: const EdgeInsets.all(0.0),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate(
-                        <Widget>[buildMuscuForm()],
+                        <Widget>[
+                          muscuSelected ? buildMuscuForm() : buildCardioForm()
+                        ],
                       ),
                     ),
                   ),
@@ -81,12 +110,12 @@ class _exerciseState extends State<Exerciseform> {
                         title: name,
                         program_id: args.program.id,
                         description: '',
-                        duration: 0,
+                        duration: durationValue,
                         repetition: formInputValue[1],
                         restDuration: formInputValue[3],
                         serie: formInputValue[2],
                         weight: formInputValue[0],
-                        type: 'muscu',
+                        type: typeExercise,
                       );
                       await Exercise.insertExercise(newExo);
                       Navigator.pushNamed(
@@ -145,7 +174,6 @@ class _exerciseState extends State<Exerciseform> {
                     onPressed: () {
                       setState(() {
                         formInputValue[i] += 1;
-                        value += 1;
                       });
                     },
                     child: const Icon(
@@ -162,6 +190,57 @@ class _exerciseState extends State<Exerciseform> {
       ));
     }
     return Column(children: finalInput);
+  }
+
+  buildCardioForm() {
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: createDivider('Duration')),
+        //
+        // DURATION
+        //
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FloatingActionButton(
+                  heroTag: 'durationMinus',
+                  onPressed: () {
+                    setState(() {
+                      if (durationValue > 0) {
+                        durationValue -= 1;
+                      }
+                    });
+                  },
+                  child:
+                      const Icon(Icons.exposure_minus_1, color: Colors.black),
+                  backgroundColor: Colors.white,
+                ),
+                Text(durationValue.toString(),
+                    style: TextStyle(fontSize: 25.0)),
+                FloatingActionButton(
+                  heroTag: 'durationPlus',
+                  onPressed: () {
+                    setState(() {
+                      durationValue += 1;
+                    });
+                  },
+                  child: const Icon(
+                    Icons.exposure_plus_1,
+                    color: Colors.black,
+                  ),
+                  backgroundColor: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

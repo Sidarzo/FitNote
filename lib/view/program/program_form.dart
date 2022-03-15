@@ -32,7 +32,8 @@ class _programformState extends State<Programform> {
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
                 controller: nameEditingController,
-                decoration: InputDecoration(label: Text('Nom du programme')),
+                decoration:
+                    const InputDecoration(label: Text('Nom du programme')),
                 validator: (formName) {
                   if (formName == null || formName.isEmpty) {
                     return 'Rentrez un nom valide';
