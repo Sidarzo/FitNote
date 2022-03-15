@@ -220,7 +220,7 @@ class _exerciseState extends State<Exerciseform> {
                       const Icon(Icons.exposure_minus_1, color: Colors.black),
                   backgroundColor: Colors.white,
                 ),
-                Text(durationValue.toString(),
+                Text(durationValue.toString() + ' mins',
                     style: TextStyle(fontSize: 25.0)),
                 FloatingActionButton(
                   heroTag: 'durationPlus',

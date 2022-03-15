@@ -98,7 +98,7 @@ class _ExerciseListState extends State<ExerciseList> {
           children: <Widget>[
             ListTile(
               title: Text(
-                'Exercice : ' + exercise.title,
+                'Exercice ' + exercise.type + ' : ' + exercise.title,
                 style: const TextStyle(
                     // color:  Color(0xFF043b90),
                     // fontWeight: FontWeight.bold,
