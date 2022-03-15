@@ -45,12 +45,12 @@ class ExerciseList extends StatefulWidget {
   _ExerciseListState createState() => _ExerciseListState();
 
 }
-var test;
+var exercisesLoaded;
 class _ExerciseListState extends State<ExerciseList> {
   @override
   void initState(){
   
-   test = Future.delayed(
+   exercisesLoaded = Future.delayed(
         Duration(seconds: 1),
         () => Exercise.getExercisesWithProgramId(1));
   }
@@ -79,10 +79,8 @@ class _ExerciseListState extends State<ExerciseList> {
 
   buildListExcercies(programId) {
 
-    print('DEDANS');
-
     return FutureBuilder<List<Exercise>>(
-        future: test,
+        future: exercisesLoaded,
         builder: (context, AsyncSnapshot<List<Exercise>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
