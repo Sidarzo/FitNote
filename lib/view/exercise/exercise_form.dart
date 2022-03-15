@@ -19,17 +19,19 @@ class _exerciseState extends State<Exerciseform> {
 
   final TextEditingController nameEditingController = TextEditingController();
 
-  var durationValue = 0;
+  var formInput = ['weight', 'repetition', 'serie', 'restDuration'];
+  var formInputName = ['Poids', 'Répétitions', 'Séries', 'Repos'];
+  var formInputValue = [0, 0, 0, 0];
+  var value = 0;
+  var magnitude = [' kg', ' répét', ' séries', ' mins'];
 
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
-      
       appBar: AppBar(
         title: const Text('FitNote'),
         centerTitle: true,
       ),
-      
       body: Form(
         key: _formKey,
         child: Column(
@@ -51,29 +53,21 @@ class _exerciseState extends State<Exerciseform> {
                 },
               ),
             ),
-            Expanded(child: 
-              CustomScrollView(
+            Expanded(
+              child: CustomScrollView(
                 shrinkWrap: true,
                 slivers: <Widget>[
                   SliverPadding(
-  
                     padding: const EdgeInsets.all(0.0),
                     sliver: SliverList(
-                      
                       delegate: SliverChildListDelegate(
-                        <Widget>[
-                          buildMuscuForm()
-                        ],
+                        <Widget>[buildMuscuForm()],
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            
-
-
-
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Center(
@@ -81,11 +75,20 @@ class _exerciseState extends State<Exerciseform> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       String name = nameEditingController.text;
-                      var newProgram = Program(
+
+                      var newExo = Exercise(
                         id: null,
-                        name: name,
+                        title: name,
+                        program_id: args.program.id,
+                        description: '',
+                        duration: 0,
+                        repetition: formInputValue[1],
+                        restDuration: formInputValue[3],
+                        serie: formInputValue[2],
+                        weight: formInputValue[0],
+                        type: 'muscu',
                       );
-                      await Program.insertProgram(newProgram);
+                      await Exercise.insertExercise(newExo);
                       Navigator.pushNamed(
                         context,
                         programfocus_view.ProgramFocusScreen.routeName,
@@ -104,77 +107,62 @@ class _exerciseState extends State<Exerciseform> {
     );
   }
 
+  buildMuscuForm() {
+    List<Widget> finalInput = [];
 
-buildMuscuForm(){
-  var formInput = ['weight','repetition','serie','restDuration'];
-  var formInputName = ['Poids','Répétitions','Séries','Repos'];
-  var formInputValue = [0,0,0,0];
-  var magnitude = [' kg',' répét',' séries',' mins'];
-  List<Widget> finalInput = [];
-  
-  for(var i = 0; i < formInput.length; i++){
-
-    finalInput.add(
-      Column(
+    for (var i = 0; i < formInput.length; i++) {
+      finalInput.add(Column(
         children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: createDivider(formInputName[i])
-              ),
-              //
-              // DURATION
-            //
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Center(
+              child: createDivider(formInputName[i])),
+          //
+          // DURATION
+          //
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Center(
               child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-              FloatingActionButton(
-              heroTag: formInput[i] + 'Minus',
-              onPressed: () {
-                setState(() {
-                if (formInputValue[i] > 0) {
-                    formInputValue[i] -= 1;
-                  }
-                });
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FloatingActionButton(
+                    heroTag: formInput[i] + 'Minus',
+                    onPressed: () {
+                      setState(() {
+                        if (formInputValue[i] > 0) {
+                          formInputValue[i] -= 1;
+                        }
+                      });
                     },
-                child: const Icon(Icons.exposure_minus_1,
-                color: Colors.black),
-                backgroundColor: Colors.white,
-                ),
-                Text(formInputValue[i].toString() + magnitude[i],
-                  style: TextStyle(fontSize: 25.0)
+                    child:
+                        const Icon(Icons.exposure_minus_1, color: Colors.black),
+                    backgroundColor: Colors.white,
                   ),
-                FloatingActionButton(
-                  heroTag: formInput[i] + 'Plus',
-                  onPressed: () {
-                    setState(() {
-                      formInputValue[i] += 1;
-                    });
-
-
-                  },
-                  child: const Icon(
-                    Icons.exposure_plus_1,
-                    color: Colors.black,
-                  ),
-                  backgroundColor: Colors.white,
+                  Text(formInputValue[i].toString() + magnitude[i],
+                      style: TextStyle(fontSize: 25.0)),
+                  FloatingActionButton(
+                    heroTag: formInput[i] + 'Plus',
+                    onPressed: () {
+                      setState(() {
+                        formInputValue[i] += 1;
+                        value += 1;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.exposure_plus_1,
+                      color: Colors.black,
+                    ),
+                    backgroundColor: Colors.white,
                   ),
                 ],
               ),
             ),
           ),
         ],
-      )
-    );
+      ));
+    }
+    return Column(children: finalInput);
   }
-  return Column(
-      children: 
-          finalInput
-      );
-}
-
 }
 
 class ScreenArguments {
@@ -182,4 +170,3 @@ class ScreenArguments {
 
   ScreenArguments(this.program);
 }
-

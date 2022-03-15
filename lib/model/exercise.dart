@@ -10,7 +10,7 @@ class Exercise {
   // muscu
   final int? weight;
   final int? repetition;
-  final int? series;
+  final int? serie;
   final int? restDuration;
   //type
   final String type;
@@ -24,7 +24,7 @@ class Exercise {
     required this.duration,
     required this.repetition,
     required this.restDuration,
-    required this.series,
+    required this.serie,
     required this.weight,
     required this.type,
   });
@@ -37,7 +37,7 @@ class Exercise {
         duration = res['duration'],
         repetition = res['repetition'],
         restDuration = res['restDuration'],
-        series = res['series'],
+        serie = res['serie'],
         weight = res['weight'],
         type = res['type'];
 
@@ -50,7 +50,7 @@ class Exercise {
       'duration': duration,
       'repetition': repetition,
       'restDuration': restDuration,
-      'series': series,
+      'serie': serie,
       'weight': weight,
       'type': type,
     };
@@ -94,7 +94,7 @@ class Exercise {
         duration: maps[i]['duration'],
         repetition: maps[i]['repetition'],
         restDuration: maps[i]['restDuration'],
-        series: maps[i]['series'],
+        serie: maps[i]['serie'],
         weight: maps[i]['weight'],
         type: maps[i]['type'],
       );
