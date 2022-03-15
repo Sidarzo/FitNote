@@ -16,6 +16,9 @@ class Exercise {
   final String type;
   final int? program_id;
 
+  late bool isExpanded = false;
+  late bool isDone = false;
+
   Exercise({
     required this.id,
     required this.title,

@@ -90,43 +90,80 @@ class _ExerciseListState extends State<ExerciseList> {
   }
 
   buildRow(Exercise exercise) {
-    exercise.title;
     return Container(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                'Exercice ' + exercise.type + ' : ' + exercise.title,
-                style: const TextStyle(
-                    // color:  Color(0xFF043b90),
-                    // fontWeight: FontWeight.bold,
+      margin: EdgeInsets.only(bottom: 10.0),
+      child: ExpansionPanelList(
+        animationDuration: Duration(milliseconds: 500),
+        dividerColor: Colors.red,
+        expandedHeaderPadding: EdgeInsets.only(bottom: 0.0),
+        elevation: 1,
+        children: [
+          ExpansionPanel(
+            canTapOnHeader: true,
+            headerBuilder: (BuildContext context, bool isExpanded) {
+              return Container(
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Text(
+                        exercise.title,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                      exercise.isDone
+                          ? IconButton(
+                              icon: Icon(Icons.check_circle_outline),
+                              color: Colors.green,
+                              onPressed: () {
+                                setState(() {
+                                  exercise.isDone = !exercise.isDone;
+                                });
+                              },
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  exercise.isDone = !exercise.isDone;
+                                });
+                              },
+                              icon: Icon(Icons.do_not_disturb_alt_sharp),
+                              color: Colors.red,
+                            )
+                    ],
+                  ));
+            },
+            body: Container(
+              padding: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    exercise.type,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 15,
+                      height: 1.3,
                     ),
+                  ),
+                ],
               ),
-              trailing: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      print(exercise.id);
-                      Exercise.deleteExercise(exercise.id ?? 0);
-                    });
-                  },
-                  icon: const Icon(Icons.delete)),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Charges ' + exercise.weight.toString() + 'kg '),
-                Text('Séries ' + exercise.serie.toString() + ' '),
-                Text('Répétitions ' + exercise.repetition.toString() + ' '),
-                Text('Repos ' + exercise.restDuration.toString() + 'secs '),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
-        ),
+            isExpanded: exercise.isExpanded,
+          )
+        ],
+        expansionCallback: (int item, bool status) {
+          setState(() {
+            exercise.isExpanded = !exercise.isExpanded;
+          });
+        },
       ),
     );
+  }
+
+  showMenu() {
+    return;
   }
 }
 
