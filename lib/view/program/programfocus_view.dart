@@ -17,6 +17,7 @@ class ProgramFocusScreen extends StatelessWidget {
     // Extract the arguments from the current ModalRoute
     // settings and cast them as ScreenArguments.
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -42,9 +43,17 @@ class ExerciseList extends StatefulWidget {
 
   @override
   _ExerciseListState createState() => _ExerciseListState();
-}
 
+}
+var test;
 class _ExerciseListState extends State<ExerciseList> {
+  @override
+  void initState(){
+  
+   test = Future.delayed(
+        Duration(seconds: 1),
+        () => Exercise.getExercisesWithProgramId(1));
+  }
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
@@ -69,11 +78,11 @@ class _ExerciseListState extends State<ExerciseList> {
   }
 
   buildListExcercies(programId) {
-    Future<List<Exercise>> callAsyncFetch() => Future.delayed(
-        Duration(seconds: 2),
-        () => Exercise.getExercisesWithProgramId(programId));
+
+    print('DEDANS');
+
     return FutureBuilder<List<Exercise>>(
-        future: callAsyncFetch(),
+        future: test,
         builder: (context, AsyncSnapshot<List<Exercise>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -82,11 +91,14 @@ class _ExerciseListState extends State<ExerciseList> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, i) {
                   return buildRow(snapshot.data![i]);
+                  
                 });
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         });
+  
+
   }
 
   buildRow(Exercise exercise) {

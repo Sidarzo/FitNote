@@ -75,8 +75,6 @@ class dbFitNote {
         if (newVersion == 23) {
           await database.execute('DROP TABLE program');
 
-          await database.execute('DROP TABLE exercise');
-
           await database.execute(
             "CREATE TABLE program(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)",
           );

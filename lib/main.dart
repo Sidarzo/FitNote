@@ -97,7 +97,6 @@ class _HomePageState extends State<HomePage> {
   buildRow(Program program) {
     index++;
     program.name;
-    print(program.id);
     return ListTile(
       title: Text(
         program.name,
