@@ -2,72 +2,82 @@ import '../../model/program.dart';
 import '../../model/exercise.dart';
 import 'package:flutter/material.dart';
 import '../../component/custom_app_bar.dart';
-import '/view/exercise/exercise_form.dart' as ExerciseForm;
-import '../../main.dart' as MainView;
 
 // A Widget that extracts the necessary arguments from
 // the ModalRoute.
 class ProgramFocusScreen extends StatelessWidget {
-  const ProgramFocusScreen({Key? key}) : super(key: key);
+  const ProgramFocusScreen({Key? key, required this.program}) : super(key: key);
 
-  static const routeName = '/programfocus';
-
+  // ignore: prefer_typing_uninitialized_variables
+  final program;
   @override
   Widget build(BuildContext context) {
     // Extract the arguments from the current ModalRoute
     // settings and cast them as ScreenArguments.
-    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(args.program.name),
+        backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+        title: Text(program.name),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushNamed(
-                context,
-                MainView.MyApp.routeName,
-                arguments: null,
-              );
+              Navigator.pushNamed(context, '/dashboard');
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
       ),
-      body: const ExerciseList(),
+      body: ExerciseList(program: program),
     );
   }
 }
 
 class ExerciseList extends StatefulWidget {
-  const ExerciseList({Key? key}) : super(key: key);
+  const ExerciseList({Key? key, required this.program}) : super(key: key);
+
+  // ignore: prefer_typing_uninitialized_variables
+  final program;
 
   @override
-  _ExerciseListState createState() => _ExerciseListState();
-
+  _ExerciseListState createState() => _ExerciseListState(program);
 }
-var exercisesLoaded;
+
+Future<List<Exercise>>? exercisesLoaded;
+
 class _ExerciseListState extends State<ExerciseList> {
+  Program program;
+  _ExerciseListState(this.program);
+
   @override
-  void initState(){
-  
-   exercisesLoaded = Future.delayed(
-        Duration(seconds: 1),
-        () => Exercise.getExercisesWithProgramId(1));
+  void initState() {
+    exercisesLoaded = Future.delayed(const Duration(milliseconds: 100),
+        () => Exercise.getExercisesWithProgramId(program.id ?? 0));
   }
+
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+        automaticallyImplyLeading: false,
+        title: const Text('Mes exercices :'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              Navigator.pushNamed(context, '/startTraining',
+                  arguments: await exercisesLoaded);
+            },
+            icon: Icon(Icons.play_circle_fill_outlined),
+            iconSize: 30,
+          ),
+        ],
+      ),
       body: Container(
-        child: buildListExcercies(args.program.id),
+        child: buildListExcercies(program.id),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.pushNamed(
-            context,
-            ExerciseForm.Exerciseform.routeName,
-            arguments: ExerciseForm.ScreenArguments(args.program),
-          );
+        backgroundColor: const Color.fromARGB(255, 133, 0, 156),
+        onPressed: () {
+          Navigator.pushNamed(context, '/excersieform', arguments: program);
         },
         tooltip: 'Create',
         child: const Icon(Icons.add),
@@ -78,7 +88,6 @@ class _ExerciseListState extends State<ExerciseList> {
   }
 
   buildListExcercies(programId) {
-
     return FutureBuilder<List<Exercise>>(
         future: exercisesLoaded,
         builder: (context, AsyncSnapshot<List<Exercise>> snapshot) {
@@ -89,30 +98,27 @@ class _ExerciseListState extends State<ExerciseList> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, i) {
                   return buildRow(snapshot.data![i]);
-                  
                 });
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         });
-  
-
   }
 
   buildRow(Exercise exercise) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
+      margin: const EdgeInsets.only(bottom: 10.0),
       child: ExpansionPanelList(
-        animationDuration: Duration(milliseconds: 500),
+        animationDuration: const Duration(milliseconds: 500),
         dividerColor: Colors.red,
-        expandedHeaderPadding: EdgeInsets.only(bottom: 0.0),
+        expandedHeaderPadding: const EdgeInsets.only(bottom: 0.0),
         elevation: 1,
         children: [
           ExpansionPanel(
             canTapOnHeader: true,
             headerBuilder: (BuildContext context, bool isExpanded) {
               return Container(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     children: [
                       Text(
@@ -122,32 +128,11 @@ class _ExerciseListState extends State<ExerciseList> {
                           fontSize: 18,
                         ),
                       ),
-                      exercise.isDone
-                          ? IconButton(
-                              icon: Icon(Icons.check_circle_outline),
-                              color: Colors.green,
-                              onPressed: () {
-                                setState(() {
-                                  exercise.isDone = !exercise.isDone;
-                                });
-                              },
-                            )
-                          : IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  exercise.isDone = !exercise.isDone;
-                                });
-                              },
-                              icon: Icon(Icons.do_not_disturb_alt_sharp),
-                              color: Colors.red,
-                            )
                     ],
                   ));
             },
-            body: 
-
-              Container(
-              padding: EdgeInsets.only(bottom: 20),
+            body: Container(
+              padding: const EdgeInsets.only(bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -163,10 +148,6 @@ class _ExerciseListState extends State<ExerciseList> {
                 ],
               ),
             ),
-
-    
-    
-            
             isExpanded: exercise.isExpanded,
           )
         ],
@@ -178,14 +159,4 @@ class _ExerciseListState extends State<ExerciseList> {
       ),
     );
   }
-
-  showMenu() {
-    return;
-  }
-}
-
-class ScreenArguments {
-  final Program program;
-
-  ScreenArguments(this.program);
 }

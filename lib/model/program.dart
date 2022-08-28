@@ -1,5 +1,4 @@
-import 'package:sqflite/sqflite.dart';
-import 'db.dart';
+import 'dart:async';
 
 class Program {
   final int? id;
@@ -19,49 +18,43 @@ class Program {
   }
 
 // Define a function that inserts dogs into the database
-  static Future<void> insertProgram(Program program) async {
-    // Get a reference to the database.
-    final Database db = await dbFitNote.initializeDB();
-
-    // Insert the Dog into the correct table. You might also specify the
-    // `conflictAlgorithm` to use in case the same dog is inserted twice.
-    //
-    // In this case, replace any previous data.
-    await db.insert(
-      'program',
-      program.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+  static Future<void> insertProgram(int userId, String name) async {
+        // await ApiModel.post(
+        // AppSettings.API_URL + 'createProgram/' + userId.toString(),
+        // {'name': name});
   }
 
   // A method that retrieves all the programs from the program table.
   static Future<List<Program>> getPrograms() async {
-    // Get a reference to the database.
-    final Database db = await dbFitNote.initializeDB();
+   
+    
+    // final List<dynamic>? maps = await ApiModel.get(
+    //     AppSettings.API_URL + 'getProgramsWithUserId/' + userId.toString());
 
-    // Query the table for all The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query('program');
+    // return List.generate(maps?.length ?? 0, (i) {
+    //   return Program(
+    //     id: maps?[i]['id'],
+    //     name: maps?[i]['name'],
+    //   );
+    // });
 
-    // Convert the List<Map<String, dynamic> into a List<Program>.
-    return List.generate(maps.length, (i) {
-      return Program(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-      );
-    });
+    List<Program> listProgram = [Program(id: 1, name: 'Programe du lundi soir')];
+    return listProgram;
+
   }
 
   static Future<void> deleteProgram(int id) async {
-    // Get a reference to the database.
-    final Database db = await dbFitNote.initializeDB();
+    // Timer(
+    //     const Duration(milliseconds: 10),
+    //     () async => await ApiModel.get(
+    //         AppSettings.API_URL + 'deleteProgram/' + id.toString()));
+  }
 
-    // Remove the Dog from the database.
-    await db.delete(
-      'program',
-      // Use a `where` clause to delete a specific dog.
-      where: 'id = ?',
-      // Pass the Dog's id as a whereArg to prevent SQL injection.
-      whereArgs: [id],
-    );
+
+
+  static Future<void> updateProgram(Program program) async {
+    // ApiModel.post(
+    //     AppSettings.API_URL + 'updateprogram/' + program.id.toString(),
+    //     {'name': program.name});
   }
 }

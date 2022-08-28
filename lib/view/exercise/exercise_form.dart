@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../model/exercise.dart';
-import '../../model/program.dart';
-import '/view/program/programfocus_view.dart' as programfocus_view;
 import '../../component/divider.dart';
+import '../../model/program.dart';
+import '../../view_model/exercise/exerciseform_view_model.dart';
 
 class Exerciseform extends StatefulWidget {
-  const Exerciseform({Key? key}) : super(key: key);
+  const Exerciseform({Key? key, required this.program}) : super(key: key);
 
-  static const routeName = '/exerciseform';
+  // ignore: prefer_typing_uninitialized_variables
+  final program;
 
   @override
-  _exerciseState createState() => _exerciseState();
+  _exerciseState createState() => _exerciseState(program);
 }
 
 class _exerciseState extends State<Exerciseform> {
+  _exerciseState(this.program);
+  final Program program;
+
+  late ExerciseFormViewModel _efvm;
+
   @override
+  void initState() {
+    _efvm = Provider.of<ExerciseFormViewModel>(context, listen: false);
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController nameEditingController = TextEditingController();
@@ -27,10 +39,11 @@ class _exerciseState extends State<Exerciseform> {
   bool muscuSelected = true;
   String typeExercise = 'Muscu';
 
+  @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 32, 32, 32),
         title: const Text('FitNote'),
         centerTitle: true,
       ),
@@ -63,19 +76,26 @@ class _exerciseState extends State<Exerciseform> {
                 style: const TextStyle(color: Colors.deepPurple),
                 underline: Container(
                   height: 2,
-                  color: Colors.deepPurpleAccent,
+                  color: const Color.fromARGB(255, 32, 32, 32),
                 ),
                 onChanged: (String? newValue) {
                   setState(() {
+                    if (typeExercise != newValue) {
+                      muscuSelected = !muscuSelected;
+                    }
                     typeExercise = newValue!;
-                    muscuSelected = !muscuSelected;
                   });
                 },
                 items: <String>['Muscu', 'Cardio']
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 32, 32, 32),
+                      ),
+                    ),
                   );
                 }).toList(),
               ),
@@ -101,6 +121,9 @@ class _exerciseState extends State<Exerciseform> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Center(
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 133, 0, 156))),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       String name = nameEditingController.text;
@@ -108,7 +131,7 @@ class _exerciseState extends State<Exerciseform> {
                       var newExo = Exercise(
                         id: null,
                         title: name,
-                        program_id: args.program.id,
+                        program_id: program.id,
                         description: '',
                         duration: durationValue,
                         repetition: formInputValue[1],
@@ -117,13 +140,11 @@ class _exerciseState extends State<Exerciseform> {
                         weight: formInputValue[0],
                         type: typeExercise,
                       );
-                      await Exercise.insertExercise(newExo);
-                      Navigator.pushNamed(
-                        context,
-                        programfocus_view.ProgramFocusScreen.routeName,
-                        arguments:
-                            programfocus_view.ScreenArguments(args.program),
-                      );
+
+                      _efvm.createExerciseButtonOnClickCommand(newExo);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/focusprogram', (route) => false,
+                          arguments: program);
                     }
                   },
                   child: const Text('Créer l\'exercice'),
@@ -168,7 +189,7 @@ class _exerciseState extends State<Exerciseform> {
                     backgroundColor: Colors.white,
                   ),
                   Text(formInputValue[i].toString() + magnitude[i],
-                      style: TextStyle(fontSize: 25.0)),
+                      style: const TextStyle(fontSize: 25.0)),
                   FloatingActionButton(
                     heroTag: formInput[i] + 'Plus',
                     onPressed: () {
@@ -221,7 +242,7 @@ class _exerciseState extends State<Exerciseform> {
                   backgroundColor: Colors.white,
                 ),
                 Text(durationValue.toString() + ' mins',
-                    style: TextStyle(fontSize: 25.0)),
+                    style: const TextStyle(fontSize: 25.0)),
                 FloatingActionButton(
                   heroTag: 'durationPlus',
                   onPressed: () {
@@ -242,10 +263,4 @@ class _exerciseState extends State<Exerciseform> {
       ],
     );
   }
-}
-
-class ScreenArguments {
-  final Program program;
-
-  ScreenArguments(this.program);
 }
