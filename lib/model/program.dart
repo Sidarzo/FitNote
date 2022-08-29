@@ -1,4 +1,5 @@
-import 'dart:async';
+import 'package:sqflite/sqflite.dart';
+import 'db.dart';
 
 class Program {
   final int? id;
@@ -10,7 +11,7 @@ class Program {
     required this.id,
     required this.name,
     required this.duration,
-    required this.realized
+    required this.realized,
   });
 
   Program.fromMap(Map<String, dynamic> res)
@@ -20,58 +21,55 @@ class Program {
         realized = res['realized'];
 
   Map<String, Object?> toMap() {
-    return {'id': id, 'name': name, 'duration' : duration, 'realized' : realized};
+    return {'id': id, 'name': name,'duration' : duration, 'realized' : realized};
   }
 
 // Define a function that inserts dogs into the database
-  static Future<void> insertProgram(int userId, String name) async {
-        // await ApiModel.post(
-        // AppSettings.API_URL + 'createProgram/' + userId.toString(),
-        // {'name': name});
+  static Future<void> insertProgram(Program program) async {
+    // Get a reference to the database.
+    final Database db = await dbFitNote.initializeDB();
+
+    // Insert the Dog into the correct table. You might also specify the
+    // `conflictAlgorithm` to use in case the same dog is inserted twice.
+    //
+    // In this case, replace any previous data.
+    await db.insert(
+      'program',
+      program.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   // A method that retrieves all the programs from the program table.
   static Future<List<Program>> getPrograms() async {
-   
-    
-    // final List<dynamic>? maps = await ApiModel.get(
-    //     AppSettings.API_URL + 'getProgramsWithUserId/' + userId.toString());
+    // Get a reference to the database.
+    final Database db = await dbFitNote.initializeDB();
 
-    // return List.generate(maps?.length ?? 0, (i) {
-    //   return Program(
-    //     id: maps?[i]['id'],
-    //     name: maps?[i]['name'],
-    //   );
-    // });
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('program');
 
-    List<Program> listProgram = [
-      Program(id: 1, name: 'Programe du lundi soir1', duration: 120, realized : 5),
-      Program(id: 2, name: 'Programe du lundi soir2', duration: 120, realized : 6),
-      Program(id: 3, name: 'Programe du lundi soir3', duration: 120, realized : 3),
-      Program(id: 4, name: 'Programe du lundi soir4', duration: 120, realized : 0),
-      Program(id: 5, name: 'Programe du lundi soir5', duration: 120, realized : 1),
-      Program(id: 6, name: 'Programe du lundi soir6', duration: 120, realized : 10),
-      Program(id: 7, name: 'Programe du lundi soir7', duration: 120, realized : 32),
-      Program(id: 8, name: 'Programe du lundi soir8', duration: 120, realized : 4),
-      Program(id: 9, name: 'Programe du lundi soir9', duration: 120, realized : 1),
-      
-      ];
-    return listProgram;
-
+    // Convert the List<Map<String, dynamic> into a List<Program>.
+    return List.generate(maps.length, (i) {
+      return Program(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        duration: maps[i]['duration'],
+        realized: maps[i]['realized']
+      );
+    });
   }
 
   static Future<void> deleteProgram(int id) async {
-    // Timer(
-    //     const Duration(milliseconds: 10),
-    //     () async => await ApiModel.get(
-    //         AppSettings.API_URL + 'deleteProgram/' + id.toString()));
-  }
+    // Get a reference to the database.
+    final Database db = await dbFitNote.initializeDB();
 
-
-
-  static Future<void> updateProgram(Program program) async {
-    // ApiModel.post(
-    //     AppSettings.API_URL + 'updateprogram/' + program.id.toString(),
-    //     {'name': program.name});
+    // Remove the Dog from the database.
+    await db.delete(
+      'program',
+      // Use a `where` clause to delete a specific dog.
+      where: 'id = ?',
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [id],
+    );
   }
 }

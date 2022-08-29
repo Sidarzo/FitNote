@@ -81,10 +81,19 @@ class dbFitNote {
           await database.execute(
               'CREATE TABLE exercise(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, duration INTEGER, description TEXT, weight INTEGER,repetition INTEGER,serie INTEGER,restDuration INTEGER, type TEXT NOT NULL,program_id INTEGER NOT NULL,FOREIGN KEY(program_id) REFERENCES program(id))');
         }
+        if (newVersion == 24) {
+          await database.execute('DROP TABLE program');
+          await database.execute('DROP TABLE exercise');
+          await database.execute(
+            "CREATE TABLE program(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, duration INTEGER NOT NULL, realized INTEGER NOT NULL)",
+          );
+          await database.execute(
+              'CREATE TABLE exercise(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, duration INTEGER, description TEXT, weight INTEGER,repetition INTEGER,serie INTEGER,restDuration INTEGER, type TEXT NOT NULL,program_id INTEGER NOT NULL,FOREIGN KEY(program_id) REFERENCES program(id))');
+        }
 
         await batch.commit();
       },
-      version: 23,
+      version: 24,
     );
   }
 }
