@@ -64,9 +64,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 32, 32, 32),
-            automaticallyImplyLeading: false,
             title: const Text('FitNote'),
             centerTitle: true,
           ),
@@ -76,6 +76,33 @@ class _HomePageState extends State<HomePage> {
               buildListPrograms()
             ],
           ),
+          drawer: Drawer(
+            child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                title: const Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),
+        ),
           bottomNavigationBar: CustomBottomAppBar.buildAppBar(context)),
     );
   }
@@ -272,7 +299,14 @@ buildTopApp(){
                     spreadRadius: 1,      
             )
           ]
-          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Test'),
+            Text('test'),
+          ],
+        ),
       ),
     ],
   );
