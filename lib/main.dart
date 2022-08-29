@@ -31,16 +31,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: const Color.fromARGB(255, 32, 32, 32),
-      debugShowCheckedModeBanner: false,
+    return const MaterialApp(
       initialRoute: '/',
       onGenerateRoute: Router.generateRoute,
-      title: 'Fitnote',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const LandingView(),
+      home: LandingView(),
     );
   }
 }
@@ -64,9 +58,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-          
-          appBar: AppBar(
+      home: Scaffold(  
+          appBar: AppBar(     
             flexibleSpace: Container(
               decoration: const BoxDecoration(
             gradient:  LinearGradient(
@@ -142,42 +135,57 @@ buildTopApp(){
         height: 200,
         margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: BorderRadius.circular(7.0),
          // color: Color.fromRGBO(218, 255, 247, 1),
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment(0.8, 1),
             colors: <Color>[
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromRGBO(218, 255, 247, 1),
+              Color.fromARGB(255, 206, 250, 240),
+              Color.fromARGB(255, 160, 253, 233),
             ], // Gradient from https://learnui.design/tools/gradient-generator.html
             tileMode: TileMode.clamp,
         ),
-          // boxShadow: const [
-          //   BoxShadow(
-          //      color: Color.fromARGB(255, 218, 74, 247),
-          //           offset: Offset(0, 2),
-          //           blurRadius: 3,
-          //           spreadRadius: 1,      
-          //   )
-          // ]
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Image(image: AssetImage('assets/images/topAppimg2.jpg')),
-            Column(
-              children: const [
-                Text('Nombre de programme', 
-                style: TextStyle(
-                  fontSize: 10,
-                ),
-                ),
-                Text('')
-              ],
-            )
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(255, 191, 250, 236),
+              offset: Offset(0, 2),
+              blurRadius: 3,
+              spreadRadius: 1,      
+            ),    
           ],
         ),
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            
+            children: [
+              const Image(image: AssetImage('assets/images/topAppimg2.jpg')),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: const [
+                    Icon(Icons.access_time),
+                    Text('${ 100 } mins')
+                    ]
+                  ),
+                  const Divider(
+                    height: 10,
+                  ),
+                  Row(
+                    children: const [
+                      Icon(Icons.format_list_numbered),
+                      Text('${ 10 } programmes')
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        )    
       ),
     ],
   );
@@ -200,8 +208,7 @@ buildTopApp(){
                 shrinkWrap: true,
                 itemCount: snapshot.data?.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5,
+                            crossAxisSpacing: 1,
                             crossAxisCount: 2,
                         ),
                 itemBuilder: (context, i) {
@@ -223,9 +230,9 @@ buildTopApp(){
     final TextEditingController nameEditingController = TextEditingController();
     return 
     Card(
-      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+      margin: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
       child: InkWell(
         onTap: (() {
@@ -238,7 +245,7 @@ buildTopApp(){
           margin: EdgeInsets.all(15),
           child: Column(
           children: [
-            Text(program.name),
+            Text(program.name, style: TextStyle(fontSize: 12),),
             const Divider(
               height: 20,
             ),
@@ -254,124 +261,106 @@ buildTopApp(){
               children: [
                 Text('Réalisé ${program.realized} fois')
               ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  padding: EdgeInsets.all(0.0),
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          height: 500,
+                          color: Colors.white,
+                          child: Center(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: TextFormField(
+                                      controller: nameEditingController,
+                                      decoration: const InputDecoration(
+                                          label: Text('Nouveau nom du programme')),
+                                      validator: (formName) {
+                                        if (formName == null || formName.isEmpty) {
+                                          return 'Rentrez un nom valide';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ), 
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    child: Center(
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty.all(
+                                                const Color.fromARGB(255, 133, 0, 156))),
+                                        onPressed: () async {
+                                          if (_formKey.currentState!.validate()) {
+                                            String name = nameEditingController.text;
+                                            var newProgram = Program(
+                                              id: program.id,
+                                              name: name,
+                                              duration: 120,
+                                              realized: 12
+                                            );
+                                            setState(() {
+                                              _dvm.updateProgram(newProgram);
+                                            });
+                                          }
+                                        },
+                                        child: const Text('Modifier le nom du programme'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.edit,
+                    color: Colors.grey,
+                  ),
+                ),
+              ]
             )
           ],
         ),
         ),   
-          decoration: BoxDecoration(
+        decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
-                  end: Alignment(0.8, 1),
+                  end: Alignment(0.9, 1),
                   colors: <Color>[
                    Color.fromARGB(255, 191, 250, 236),
-                  Color.fromRGBO(218, 255, 247, 1),
+                   Color.fromARGB(255, 170, 250, 231),
+                   Color.fromARGB(255, 160, 253, 233),
                 ], // Gradient from https://learnui.design/tools/gradient-generator.html
             tileMode: TileMode.clamp,
         ),
-                // boxShadow: const [
-                //   BoxShadow(
-                //     color: Color.fromARGB(255, 218, 74, 247),
-                //     offset: Offset(0, 2),
-                //     blurRadius: 3,
-                //     spreadRadius: 1,      
-                //   ),
-                  
-                // ],
-                borderRadius: BorderRadius.circular(5.0),
+                 boxShadow: const [
+                   BoxShadow(
+                     color: Color.fromARGB(255, 191, 250, 236),
+                     offset: Offset(0, 2),
+                     blurRadius: 3,
+                     spreadRadius: 1,      
+                   ),    
+                 ],
+                borderRadius: BorderRadius.circular(7.0),
             ),
           ),
         )  
       );
-      
-    
-    
-           
-        
-            // return ListTile(
-    //   title: Text(
-    //     program.name,
-    //     style: const TextStyle(
-    //       fontWeight: FontWeight.bold,
-    //     ),
-    //   ),
-    //   onTap: () {
-    //     Navigator.pushNamed(context, '/focusprogram', arguments: program);
-    //   },
-    //   leading: IconButton(
-    //     onPressed: () {
-    //       showModalBottomSheet<void>(
-    //         context: context,
-    //         builder: (BuildContext context) {
-    //           return Container(
-    //             height: 500,
-    //             color: Colors.white,
-    //             child: Center(
-    //               child: Form(
-    //                 key: _formKey,
-    //                 child: Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsets.all(16.0),
-    //                       child: TextFormField(
-    //                         controller: nameEditingController,
-    //                         decoration: const InputDecoration(
-    //                             label: Text('Nouveau nom du programme')),
-    //                         validator: (formName) {
-    //                           if (formName == null || formName.isEmpty) {
-    //                             return 'Rentrez un nom valide';
-    //                           }
-    //                           return null;
-    //                         },
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-    //                       child: Center(
-    //                         child: ElevatedButton(
-    //                           style: ButtonStyle(
-    //                               backgroundColor: MaterialStateProperty.all(
-    //                                   const Color.fromARGB(255, 133, 0, 156))),
-    //                           onPressed: () async {
-    //                             if (_formKey.currentState!.validate()) {
-    //                               String name = nameEditingController.text;
-    //                               var newProgram = Program(
-    //                                 id: program.id,
-    //                                 name: name,
-    //                               );
-    //                               setState(() {
-    //                                 _dvm.updateProgram(newProgram);
-    //                               });
-    //                             }
-    //                           },
-    //                           child: const Text('Modifier le nom du programme'),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           );
-    //         },
-    //       );
-    //     },
-    //     icon: const Icon(
-    //       Icons.edit,
-    //       color: Colors.grey,
-    //     ),
-    //   ),
-    //   trailing: IconButton(
-    //     onPressed: () {
-    //       setState(() {
-    //         _dvm.deleteProgram(program.id ?? 0);
-    //       });
-    //     },
-    //     icon: const Icon(Icons.delete),
-    //     color: Colors.red,
-    //   ),
-    //   hoverColor: Colors.grey,
-    // );
   }
 }
 
