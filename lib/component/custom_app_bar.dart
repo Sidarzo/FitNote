@@ -5,19 +5,33 @@ class CustomBottomAppBar {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       color: const Color.fromARGB(255, 32, 32, 32),
-      child: IconTheme(
-        data: const IconThemeData(color: Colors.white),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-          IconButton(              
-              splashRadius: 0.1,
-              onPressed: () async {
-              Navigator.pushNamed(context, '/programform');
-            }, icon: const Icon(Icons.add))
-          ],
+       child: Container(
+        decoration: const BoxDecoration(
+            gradient:  LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(0.8, 1),
+                    colors: <Color>[
+                    Color.fromARGB(255, 97, 255, 218),
+                    Color.fromARGB(255, 0, 241, 189),
+                  ], // Gradient from https://learnui.design/tools/gradient-generator.html
+              tileMode: TileMode.clamp,
+          ), 
         ),
-      ),
+        child:  IconTheme(
+         data: const IconThemeData(color: Colors.black),
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.center,
+           children: <Widget>[
+           IconButton(              
+               splashRadius: 0.1,
+               onPressed: () async {
+               Navigator.pushNamed(context, '/programform');
+             }, icon: const Icon(Icons.add))
+           ],
+         ),
+       ),
+      )
+     
     );
   }
 }

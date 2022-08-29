@@ -61,15 +61,30 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        
+          
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+            gradient:  LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(0.8, 1),
+                    colors: <Color>[
+                    Color.fromARGB(255, 97, 255, 218),
+                    Color.fromARGB(255, 0, 241, 189),
+                    ],
+                    tileMode: TileMode.clamp,
+                ), 
+              ),
+            ),
             title: const Text('FitNote'),
             centerTitle: true,
+            
           ),
+          
           body: Column(
             children: [ 
               buildTopApp(),
@@ -107,6 +122,68 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
+// TOP APP
+buildTopApp(){
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+    Container(
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.fromLTRB(30, 20, 0, 5),
+      child: const Text('Mes programmes',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500
+        ),
+      ),
+    ),
+    Container(
+        height: 200,
+        margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+         // color: Color.fromRGBO(218, 255, 247, 1),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromARGB(255, 255, 255, 255),
+              Color.fromRGBO(218, 255, 247, 1),
+            ], // Gradient from https://learnui.design/tools/gradient-generator.html
+            tileMode: TileMode.clamp,
+        ),
+          // boxShadow: const [
+          //   BoxShadow(
+          //      color: Color.fromARGB(255, 218, 74, 247),
+          //           offset: Offset(0, 2),
+          //           blurRadius: 3,
+          //           spreadRadius: 1,      
+          //   )
+          // ]
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Image(image: AssetImage('assets/images/topAppimg2.jpg')),
+            Column(
+              children: const [
+                Text('Nombre de programme', 
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+                ),
+                Text('')
+              ],
+            )
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+// Programs LIST 
   buildListPrograms() {
     Future<List<Program>> callAsyncFetch() => Future.delayed(
         const Duration(milliseconds: 10), () => _dvm.getPrograms());
@@ -157,31 +234,58 @@ class _HomePageState extends State<HomePage> {
         child: Container(
         height: 10,
         width: 10,
-        child: Center(child: Text(program.name)
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+          children: [
+            Text(program.name),
+            const Divider(
+              height: 20,
             ),
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 228, 118, 250),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 218, 74, 247),
-                    offset: Offset(0, 2),
-                    blurRadius: 3,
-                    spreadRadius: 1,      
-                  ),
+            Row(children: [
+              Icon(Icons.access_time),
+              Text(program.duration.toString() + ' mins')
+            ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Text('Réalisé ${program.realized} fois')
+              ],
+            )
+          ],
+        ),
+        ),   
+          decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment(0.8, 1),
+                  colors: <Color>[
+                   Color.fromARGB(255, 191, 250, 236),
+                  Color.fromRGBO(218, 255, 247, 1),
+                ], // Gradient from https://learnui.design/tools/gradient-generator.html
+            tileMode: TileMode.clamp,
+        ),
+                // boxShadow: const [
+                //   BoxShadow(
+                //     color: Color.fromARGB(255, 218, 74, 247),
+                //     offset: Offset(0, 2),
+                //     blurRadius: 3,
+                //     spreadRadius: 1,      
+                //   ),
                   
-                ],
-                borderRadius: BorderRadius.circular(15.0),
+                // ],
+                borderRadius: BorderRadius.circular(5.0),
             ),
           ),
         )  
-        );
+      );
       
     
     
-        
-        
-      
-        
+           
         
             // return ListTile(
     //   title: Text(
@@ -271,50 +375,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-buildTopApp(){
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-    Container(
-      alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.fromLTRB(30, 20, 0, 5),
-      child: const Text('Mes programmes',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500
-        ),
-      ),
-    ),
-    Container(
-        height: 200,
-        margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-          color: const Color.fromARGB(255, 218, 74, 247),
-          boxShadow: const [
-            BoxShadow(
-               color: Color.fromARGB(255, 218, 74, 247),
-                    offset: Offset(0, 2),
-                    blurRadius: 3,
-                    spreadRadius: 1,      
-            )
-          ]
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Test'),
-            Text('test'),
-          ],
-        ),
-      ),
-    ],
-  );
-  
-  
-
-}
-
+// ROUTER
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
