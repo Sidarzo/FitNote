@@ -72,23 +72,13 @@ class _HomePageState extends State<HomePage> {
           ),
           body: Column(
             children: [
-              AppBar(
-                backgroundColor: const Color.fromARGB(255, 32, 32, 32),
-                title: const Text('Mes programmes :'),
+              Container(
+                height: 250,
+                child: Center(child: Text('Top')),
               ),
               buildListPrograms()
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: const Color.fromARGB(255, 133, 0, 156),
-            onPressed: () async {
-              Navigator.pushNamed(context, '/programform');
-            },
-            tooltip: 'Create',
-            child: const Icon(Icons.add),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: CustomBottomAppBar.buildAppBar(context)),
     );
   }
@@ -100,13 +90,23 @@ class _HomePageState extends State<HomePage> {
         future: callAsyncFetch(),
         builder: (context, AsyncSnapshot<List<Program>> snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
+            return 
+              SizedBox(
+            height: MediaQuery.of(context).size.height - 426,
+            child: 
+            GridView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: snapshot.data?.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                        ),
                 itemBuilder: (context, i) {
                   return buildRow(snapshot.data![i]);
-                });
+                  
+                }
+              )
+            );
           } else {
             return Column(
               children: const [
@@ -118,91 +118,138 @@ class _HomePageState extends State<HomePage> {
   buildRow(Program program) {
     final _formKey = GlobalKey<FormState>();
     final TextEditingController nameEditingController = TextEditingController();
-    return ListTile(
-      title: Text(
-        program.name,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onTap: () {
-        Navigator.pushNamed(context, '/focusprogram', arguments: program);
-      },
-      leading: IconButton(
-        onPressed: () {
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 500,
-                color: Colors.white,
-                child: Center(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: TextFormField(
-                            controller: nameEditingController,
-                            decoration: const InputDecoration(
-                                label: Text('Nouveau nom du programme')),
-                            validator: (formName) {
-                              if (formName == null || formName.isEmpty) {
-                                return 'Rentrez un nom valide';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: Center(
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      const Color.fromARGB(255, 133, 0, 156))),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  String name = nameEditingController.text;
-                                  var newProgram = Program(
-                                    id: program.id,
-                                    name: name,
-                                  );
-                                  setState(() {
-                                    _dvm.updateProgram(newProgram);
-                                  });
-                                }
-                              },
-                              child: const Text('Modifier le nom du programme'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+    return 
+    Card(
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-              );
-            },
-          );
-        },
-        icon: const Icon(
-          Icons.edit,
-          color: Colors.grey,
-        ),
-      ),
-      trailing: IconButton(
-        onPressed: () {
-          setState(() {
-            _dvm.deleteProgram(program.id ?? 0);
-          });
-        },
-        icon: const Icon(Icons.delete),
-        color: Colors.red,
-      ),
-      hoverColor: Colors.grey,
-    );
+      child: InkWell(
+        onTap: (() {
+          Navigator.pushNamed(context, '/focusprogram', arguments: program);
+        }),
+        child: Container(
+        height: 50,
+        width: 50,
+        child: Center(child: Text(program.name)
+            ),
+            decoration: BoxDecoration(gradient: const LinearGradient(
+                colors: [
+                   Color.fromARGB(255, 216, 109, 238),
+                   Color(0xffab2bc1),
+                ],
+                begin: FractionalOffset(0.0, 0.0),
+                end: FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 40, 0, 48),
+                    offset: Offset(0, 3),
+                    blurRadius: 7,
+                    spreadRadius: 1,      
+                  ),
+                  
+                ],
+                borderRadius: BorderRadius.circular(7.0),
+            ),
+          ),
+        )  
+        );
+      
+    
+    
+        
+        
+      
+        
+        
+            // return ListTile(
+    //   title: Text(
+    //     program.name,
+    //     style: const TextStyle(
+    //       fontWeight: FontWeight.bold,
+    //     ),
+    //   ),
+    //   onTap: () {
+    //     Navigator.pushNamed(context, '/focusprogram', arguments: program);
+    //   },
+    //   leading: IconButton(
+    //     onPressed: () {
+    //       showModalBottomSheet<void>(
+    //         context: context,
+    //         builder: (BuildContext context) {
+    //           return Container(
+    //             height: 500,
+    //             color: Colors.white,
+    //             child: Center(
+    //               child: Form(
+    //                 key: _formKey,
+    //                 child: Column(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     Padding(
+    //                       padding: const EdgeInsets.all(16.0),
+    //                       child: TextFormField(
+    //                         controller: nameEditingController,
+    //                         decoration: const InputDecoration(
+    //                             label: Text('Nouveau nom du programme')),
+    //                         validator: (formName) {
+    //                           if (formName == null || formName.isEmpty) {
+    //                             return 'Rentrez un nom valide';
+    //                           }
+    //                           return null;
+    //                         },
+    //                       ),
+    //                     ),
+    //                     Padding(
+    //                       padding: const EdgeInsets.symmetric(vertical: 16.0),
+    //                       child: Center(
+    //                         child: ElevatedButton(
+    //                           style: ButtonStyle(
+    //                               backgroundColor: MaterialStateProperty.all(
+    //                                   const Color.fromARGB(255, 133, 0, 156))),
+    //                           onPressed: () async {
+    //                             if (_formKey.currentState!.validate()) {
+    //                               String name = nameEditingController.text;
+    //                               var newProgram = Program(
+    //                                 id: program.id,
+    //                                 name: name,
+    //                               );
+    //                               setState(() {
+    //                                 _dvm.updateProgram(newProgram);
+    //                               });
+    //                             }
+    //                           },
+    //                           child: const Text('Modifier le nom du programme'),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //           );
+    //         },
+    //       );
+    //     },
+    //     icon: const Icon(
+    //       Icons.edit,
+    //       color: Colors.grey,
+    //     ),
+    //   ),
+    //   trailing: IconButton(
+    //     onPressed: () {
+    //       setState(() {
+    //         _dvm.deleteProgram(program.id ?? 0);
+    //       });
+    //     },
+    //     icon: const Icon(Icons.delete),
+    //     color: Colors.red,
+    //   ),
+    //   hoverColor: Colors.grey,
+    // );
   }
 }
 

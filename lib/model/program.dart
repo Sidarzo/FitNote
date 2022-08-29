@@ -3,18 +3,21 @@ import 'dart:async';
 class Program {
   final int? id;
   final String name;
+  final int duration;
 
   Program({
     required this.id,
     required this.name,
+    required this.duration,
   });
 
   Program.fromMap(Map<String, dynamic> res)
       : id = res['id'],
-        name = res['name'];
+        name = res['name'],
+        duration = res['duration'];
 
   Map<String, Object?> toMap() {
-    return {'id': id, 'name': name};
+    return {'id': id, 'name': name, 'duration' : duration};
   }
 
 // Define a function that inserts dogs into the database
@@ -38,7 +41,18 @@ class Program {
     //   );
     // });
 
-    List<Program> listProgram = [Program(id: 1, name: 'Programe du lundi soir')];
+    List<Program> listProgram = [
+      Program(id: 1, name: 'Programe du lundi soir1', duration: 120),
+      Program(id: 2, name: 'Programe du lundi soir2', duration: 120),
+      Program(id: 3, name: 'Programe du lundi soir3', duration: 120),
+      Program(id: 4, name: 'Programe du lundi soir4', duration: 120),
+      Program(id: 5, name: 'Programe du lundi soir5', duration: 120),
+      Program(id: 6, name: 'Programe du lundi soir6', duration: 120),
+      Program(id: 7, name: 'Programe du lundi soir7', duration: 120),
+      Program(id: 8, name: 'Programe du lundi soir8', duration: 120),
+      Program(id: 9, name: 'Programe du lundi soir9', duration: 120),
+      
+      ];
     return listProgram;
 
   }
