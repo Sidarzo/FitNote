@@ -8,16 +8,8 @@ class CustomBottomAppBar {
       child: IconTheme(
         data: const IconThemeData(color: Colors.white),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            IconButton(
-              tooltip: '',
-              splashRadius: 0.1,
-              icon: const Icon(Icons.logout),
-              onPressed: () async {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/', (route) => false);
-              },
-            ),  
           IconButton(              
               splashRadius: 0.1,
               onPressed: () async {

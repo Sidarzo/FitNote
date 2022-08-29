@@ -71,11 +71,8 @@ class _HomePageState extends State<HomePage> {
             centerTitle: true,
           ),
           body: Column(
-            children: [
-              Container(
-                height: 250,
-                child: Center(child: Text('Top')),
-              ),
+            children: [ 
+              buildTopApp(),
               buildListPrograms()
             ],
           ),
@@ -92,13 +89,15 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             return 
               SizedBox(
-            height: MediaQuery.of(context).size.height - 426,
+            height: MediaQuery.of(context).size.height - 434,
             child: 
             GridView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: snapshot.data?.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
                             crossAxisCount: 2,
                         ),
                 itemBuilder: (context, i) {
@@ -120,8 +119,7 @@ class _HomePageState extends State<HomePage> {
     final TextEditingController nameEditingController = TextEditingController();
     return 
     Card(
-      margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-      elevation: 5,
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 15),
       shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
@@ -130,29 +128,22 @@ class _HomePageState extends State<HomePage> {
           Navigator.pushNamed(context, '/focusprogram', arguments: program);
         }),
         child: Container(
-        height: 50,
-        width: 50,
+        height: 10,
+        width: 10,
         child: Center(child: Text(program.name)
             ),
-            decoration: BoxDecoration(gradient: const LinearGradient(
-                colors: [
-                   Color.fromARGB(255, 216, 109, 238),
-                   Color(0xffab2bc1),
-                ],
-                begin: FractionalOffset(0.0, 0.0),
-                end: FractionalOffset(1.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 228, 118, 250),
                 boxShadow: const [
                   BoxShadow(
-                    color: Color.fromARGB(255, 40, 0, 48),
-                    offset: Offset(0, 3),
-                    blurRadius: 7,
+                    color: Color.fromARGB(255, 218, 74, 247),
+                    offset: Offset(0, 2),
+                    blurRadius: 3,
                     spreadRadius: 1,      
                   ),
                   
                 ],
-                borderRadius: BorderRadius.circular(7.0),
+                borderRadius: BorderRadius.circular(15.0),
             ),
           ),
         )  
@@ -251,6 +242,43 @@ class _HomePageState extends State<HomePage> {
     //   hoverColor: Colors.grey,
     // );
   }
+}
+
+buildTopApp(){
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+    Container(
+      alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.fromLTRB(30, 20, 0, 5),
+      child: const Text('Mes programmes',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500
+        ),
+      ),
+    ),
+    Container(
+        height: 200,
+        margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          color: const Color.fromARGB(255, 218, 74, 247),
+          boxShadow: const [
+            BoxShadow(
+               color: Color.fromARGB(255, 218, 74, 247),
+                    offset: Offset(0, 2),
+                    blurRadius: 3,
+                    spreadRadius: 1,      
+            )
+          ]
+          ),
+      ),
+    ],
+  );
+  
+  
+
 }
 
 class Router {
