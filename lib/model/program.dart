@@ -47,7 +47,6 @@ class Program {
 
     // Query the table for all The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('program');
-
     // Convert the List<Map<String, dynamic> into a List<Program>.
     return List.generate(maps.length, (i) {
       return Program(

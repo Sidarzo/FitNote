@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fitnote/app_config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../component/custom_app_bar.dart';
@@ -32,8 +33,8 @@ class _HomePageState extends State<HomePage> {
                     begin: Alignment.topLeft,
                     end: Alignment(0.8, 1),
                     colors: <Color>[
-                    Color.fromARGB(255, 97, 255, 218),
-                    Color.fromARGB(255, 0, 241, 189),
+                    APP_BAR_COLOR_START,
+                    APP_BAR_COLOR_START
                     ],
                     tileMode: TileMode.clamp,
                 ), 
@@ -107,8 +108,8 @@ buildTopApp(){
             begin: Alignment.topLeft,
             end: Alignment(0.8, 1),
             colors: <Color>[
-              Color.fromARGB(255, 206, 250, 240),
-              Color.fromARGB(255, 160, 253, 233),
+              Color.fromARGB(255, 0, 255, 195),
+                Color.fromARGB(255, 134, 255, 227),
             ], // Gradient from https://learnui.design/tools/gradient-generator.html
             tileMode: TileMode.clamp,
         ),
@@ -167,7 +168,7 @@ buildTopApp(){
           if (snapshot.hasData) {
             return 
               SizedBox(
-            height: MediaQuery.of(context).size.height - 434,
+            height: MediaQuery.of(context).size.height - 389,
             child: 
             GridView.builder(
                 scrollDirection: Axis.vertical,
@@ -215,6 +216,8 @@ buildTopApp(){
             Text(program.name, style: TextStyle(fontSize: 12),),
             const Divider(
               height: 20,
+              thickness: 1.5,
+
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -225,6 +228,7 @@ buildTopApp(){
             ),
             const Divider(
               height: 20,
+              thickness: 1.5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -312,9 +316,9 @@ buildTopApp(){
                   begin: Alignment.topLeft,
                   end: Alignment(0.9, 1),
                   colors: <Color>[
-                   Color.fromARGB(255, 191, 250, 236),
-                   Color.fromARGB(255, 170, 250, 231),
-                   Color.fromARGB(255, 160, 253, 233),
+                  Color.fromARGB(255, 0, 255, 195),
+                  Color.fromARGB(255, 50, 255, 207),
+                  Color.fromARGB(255, 134, 255, 227),
                 ], // Gradient from https://learnui.design/tools/gradient-generator.html
             tileMode: TileMode.clamp,
         ),

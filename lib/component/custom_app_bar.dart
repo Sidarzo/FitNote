@@ -1,4 +1,6 @@
+import 'package:fitnote/app_config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:fitnote/app_config/app_config.dart';
 
 class CustomBottomAppBar {
   static BottomAppBar buildAppBar(context) {
@@ -6,13 +8,13 @@ class CustomBottomAppBar {
       shape: const CircularNotchedRectangle(),
       color: const Color.fromARGB(255, 32, 32, 32),
        child: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
             gradient:  LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment(0.8, 1),
                     colors: <Color>[
-                    Color.fromARGB(255, 97, 255, 218),
-                    Color.fromARGB(255, 0, 241, 189),
+                    APP_BAR_COLOR_START,
+                    APP_BAR_COLOR_END,
                   ], // Gradient from https://learnui.design/tools/gradient-generator.html
               tileMode: TileMode.clamp,
           ), 
@@ -26,7 +28,7 @@ class CustomBottomAppBar {
                splashRadius: 0.1,
                onPressed: () async {
                Navigator.pushNamed(context, '/programform');
-             }, icon: const Icon(Icons.add))
+             }, icon: const Icon(Icons.add), iconSize: 35,)
            ],
          ),
        ),
